@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.CommentReplyMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.CommentReply" id="CommentReplyMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="commentedId" column="commented_id" jdbcType="INTEGER"/>
+        <result property="commentUserId" column="comment_user_id" jdbcType="INTEGER"/>
+        <result property="commentedUserId" column="commented_user_id" jdbcType="INTEGER"/>
+        <result property="commentReplyContent" column="comment_reply_content" jdbcType="VARCHAR"/>
+        <result property="commentReplyTime" column="comment_reply_time" jdbcType="TIMESTAMP"/>
+        <result property="isAdminRelation" column="is_admin_relation" jdbcType="INTEGER"/>
+        <result property="onlyValue" column="only_value" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CommentReplyMap">
+        select
+          id, commented_id, comment_user_id, commented_user_id, comment_reply_content, comment_reply_time, is_admin_relation, only_value
+        from weathersystem.comment_reply
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CommentReplyMap">
+        select
+          id, commented_id, comment_user_id, commented_user_id, comment_reply_content, comment_reply_time, is_admin_relation, only_value
+        from weathersystem.comment_reply
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CommentReplyMap">
+        select
+          id, commented_id, comment_user_id, commented_user_id, comment_reply_content, comment_reply_time, is_admin_relation, only_value
+        from weathersystem.comment_reply
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="commentedId != null">
+                and commented_id = #{commentedId}
+            </if>
+            <if test="commentUserId != null">
+                and comment_user_id = #{commentUserId}
+            </if>
+            <if test="commentedUserId != null">
+                and commented_user_id = #{commentedUserId}
+            </if>
+            <if test="commentReplyContent != null and commentReplyContent != ''">
+                and comment_reply_content = #{commentReplyContent}
+            </if>
+            <if test="commentReplyTime != null">
+                and comment_reply_time = #{commentReplyTime}
+            </if>
+            <if test="isAdminRelation != null">
+                and is_admin_relation = #{isAdminRelation}
+            </if>
+            <if test="onlyValue != null and onlyValue != ''">
+                and only_value = #{onlyValue}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.comment_reply
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="commentedId != null">
+                commented_id,
+            </if> 
+            <if test="commentUserId != null">
+                comment_user_id,
+            </if> 
+            <if test="commentedUserId != null">
+                commented_user_id,
+            </if> 
+            <if test="commentReplyContent != null and commentReplyContent != ''">
+                comment_reply_content,
+            </if> 
+            <if test="commentReplyTime != null">
+                comment_reply_time,
+            </if> 
+            <if test="isAdminRelation != null">
+                is_admin_relation,
+            </if> 
+            <if test="onlyValue != null and onlyValue != ''">
+                only_value,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="commentedId != null">
+                #{commentedId},
+            </if>  
+            <if test="commentUserId != null">
+                #{commentUserId},
+            </if>  
+            <if test="commentedUserId != null">
+                #{commentedUserId},
+            </if>  
+            <if test="commentReplyContent != null and commentReplyContent != ''">
+                #{commentReplyContent},
+            </if>  
+            <if test="commentReplyTime != null">
+                #{commentReplyTime},
+            </if>  
+            <if test="isAdminRelation != null">
+                #{isAdminRelation},
+            </if>  
+            <if test="onlyValue != null and onlyValue != ''">
+                #{onlyValue},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.comment_reply
+        <set>
+            <if test="commentedId != null">
+                commented_id = #{commentedId},
+            </if>
+            <if test="commentUserId != null">
+                comment_user_id = #{commentUserId},
+            </if>
+            <if test="commentedUserId != null">
+                commented_user_id = #{commentedUserId},
+            </if>
+            <if test="commentReplyContent != null and commentReplyContent != ''">
+                comment_reply_content = #{commentReplyContent},
+            </if>
+            <if test="commentReplyTime != null">
+                comment_reply_time = #{commentReplyTime},
+            </if>
+            <if test="isAdminRelation != null">
+                is_admin_relation = #{isAdminRelation},
+            </if>
+            <if test="onlyValue != null and onlyValue != ''">
+                only_value = #{onlyValue},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.comment_reply where id = #{id}
+    </delete>
+
+</mapper>

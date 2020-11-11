@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.UserMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.User" id="UserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="age" column="age" jdbcType="INTEGER"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="regTime" column="reg_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
+        <result property="userRole" column="user_role" jdbcType="INTEGER"/>
+        <result property="isAdvertise" column="is_advertise" jdbcType="INTEGER"/>
+        <result property="cumulativeScore" column="cumulative_score" jdbcType="OTHER"/>
+        <result property="leftoverScore" column="leftover_score" jdbcType="OTHER"/>
+        <result property="attentionMessSortTypeIds" column="attention_mess_sort_type_ids" jdbcType="VARCHAR"/>
+        <result property="userLevelId" column="user_level_id" jdbcType="INTEGER"/>
+        <result property="bingoNum" column="bingo_num" jdbcType="INTEGER"/>
+        <result property="openId" column="open_id" jdbcType="VARCHAR"/>
+        <result property="wxNickname" column="wx_nickname" jdbcType="VARCHAR"/>
+        <result property="userHeadImage" column="user_head_image" jdbcType="VARCHAR"/>
+        <result property="bgImage" column="bg_image" jdbcType="VARCHAR"/>
+        <result property="birthDate" column="birth_date" jdbcType="OTHER"/>
+        <result property="recommendPersonId" column="recommend_person_id" jdbcType="VARCHAR"/>
+        <result property="recommendCode" column="recommend_code" jdbcType="VARCHAR"/>
+        <result property="longitude" column="longitude" jdbcType="VARCHAR"/>
+        <result property="latitude" column="latitude" jdbcType="VARCHAR"/>
+        <result property="lastLoginRegion" column="last_login_region" jdbcType="VARCHAR"/>
+        <result property="location" column="location" jdbcType="VARCHAR"/>
+        <result property="chatImg" column="chat_img" jdbcType="VARCHAR"/>
+        <result property="isGroud" column="is_groud" jdbcType="INTEGER"/>
+        <result property="signature" column="signature" jdbcType="VARCHAR"/>
+        <result property="isCollectVisible" column="is_collect_visible" jdbcType="INTEGER"/>
+        <result property="isLongVideo" column="is_long_video" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserMap">
+        select
+          id, username, password, phone, email, sex, status, age, nickname, reg_time, update_time, last_login_time, user_role, is_advertise, cumulative_score, leftover_score, attention_mess_sort_type_ids, user_level_id, bingo_num, open_id, wx_nickname, user_head_image, bg_image, birth_date, recommend_person_id, recommend_code, longitude, latitude, last_login_region, location, chat_img, is_groud, signature, is_collect_visible, is_long_video
+        from weathersystem.user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserMap">
+        select
+          id, username, password, phone, email, sex, status, age, nickname, reg_time, update_time, last_login_time, user_role, is_advertise, cumulative_score, leftover_score, attention_mess_sort_type_ids, user_level_id, bingo_num, open_id, wx_nickname, user_head_image, bg_image, birth_date, recommend_person_id, recommend_code, longitude, latitude, last_login_region, location, chat_img, is_groud, signature, is_collect_visible, is_long_video
+        from weathersystem.user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserMap">
+        select
+          id, username, password, phone, email, sex, status, age, nickname, reg_time, update_time, last_login_time, user_role, is_advertise, cumulative_score, leftover_score, attention_mess_sort_type_ids, user_level_id, bingo_num, open_id, wx_nickname, user_head_image, bg_image, birth_date, recommend_person_id, recommend_code, longitude, latitude, last_login_region, location, chat_img, is_groud, signature, is_collect_visible, is_long_video
+        from weathersystem.user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                and nickname = #{nickname}
+            </if>
+            <if test="regTime != null">
+                and reg_time = #{regTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="lastLoginTime != null">
+                and last_login_time = #{lastLoginTime}
+            </if>
+            <if test="userRole != null">
+                and user_role = #{userRole}
+            </if>
+            <if test="isAdvertise != null">
+                and is_advertise = #{isAdvertise}
+            </if>
+            <if test="cumulativeScore != null">
+                and cumulative_score = #{cumulativeScore}
+            </if>
+            <if test="leftoverScore != null">
+                and leftover_score = #{leftoverScore}
+            </if>
+            <if test="attentionMessSortTypeIds != null and attentionMessSortTypeIds != ''">
+                and attention_mess_sort_type_ids = #{attentionMessSortTypeIds}
+            </if>
+            <if test="userLevelId != null">
+                and user_level_id = #{userLevelId}
+            </if>
+            <if test="bingoNum != null">
+                and bingo_num = #{bingoNum}
+            </if>
+            <if test="openId != null and openId != ''">
+                and open_id = #{openId}
+            </if>
+            <if test="wxNickname != null and wxNickname != ''">
+                and wx_nickname = #{wxNickname}
+            </if>
+            <if test="userHeadImage != null and userHeadImage != ''">
+                and user_head_image = #{userHeadImage}
+            </if>
+            <if test="bgImage != null and bgImage != ''">
+                and bg_image = #{bgImage}
+            </if>
+            <if test="birthDate != null">
+                and birth_date = #{birthDate}
+            </if>
+            <if test="recommendPersonId != null and recommendPersonId != ''">
+                and recommend_person_id = #{recommendPersonId}
+            </if>
+            <if test="recommendCode != null and recommendCode != ''">
+                and recommend_code = #{recommendCode}
+            </if>
+            <if test="longitude != null and longitude != ''">
+                and longitude = #{longitude}
+            </if>
+            <if test="latitude != null and latitude != ''">
+                and latitude = #{latitude}
+            </if>
+            <if test="lastLoginRegion != null and lastLoginRegion != ''">
+                and last_login_region = #{lastLoginRegion}
+            </if>
+            <if test="location != null and location != ''">
+                and location = #{location}
+            </if>
+            <if test="chatImg != null and chatImg != ''">
+                and chat_img = #{chatImg}
+            </if>
+            <if test="isGroud != null">
+                and is_groud = #{isGroud}
+            </if>
+            <if test="signature != null and signature != ''">
+                and signature = #{signature}
+            </if>
+            <if test="isCollectVisible != null">
+                and is_collect_visible = #{isCollectVisible}
+            </if>
+            <if test="isLongVideo != null">
+                and is_long_video = #{isLongVideo}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.user
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="username != null and username != ''">
+                username,
+            </if> 
+            <if test="password != null and password != ''">
+                password,
+            </if> 
+            <if test="phone != null and phone != ''">
+                phone,
+            </if> 
+            <if test="email != null and email != ''">
+                email,
+            </if> 
+            <if test="sex != null">
+                sex,
+            </if> 
+            <if test="status != null">
+                status,
+            </if> 
+            <if test="age != null">
+                age,
+            </if> 
+            <if test="nickname != null and nickname != ''">
+                nickname,
+            </if> 
+            <if test="regTime != null">
+                reg_time,
+            </if> 
+            <if test="updateTime != null">
+                update_time,
+            </if> 
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if> 
+            <if test="userRole != null">
+                user_role,
+            </if> 
+            <if test="isAdvertise != null">
+                is_advertise,
+            </if> 
+            <if test="cumulativeScore != null">
+                cumulative_score,
+            </if> 
+            <if test="leftoverScore != null">
+                leftover_score,
+            </if> 
+            <if test="attentionMessSortTypeIds != null and attentionMessSortTypeIds != ''">
+                attention_mess_sort_type_ids,
+            </if> 
+            <if test="userLevelId != null">
+                user_level_id,
+            </if> 
+            <if test="bingoNum != null">
+                bingo_num,
+            </if> 
+            <if test="openId != null and openId != ''">
+                open_id,
+            </if> 
+            <if test="wxNickname != null and wxNickname != ''">
+                wx_nickname,
+            </if> 
+            <if test="userHeadImage != null and userHeadImage != ''">
+                user_head_image,
+            </if> 
+            <if test="bgImage != null and bgImage != ''">
+                bg_image,
+            </if> 
+            <if test="birthDate != null">
+                birth_date,
+            </if> 
+            <if test="recommendPersonId != null and recommendPersonId != ''">
+                recommend_person_id,
+            </if> 
+            <if test="recommendCode != null and recommendCode != ''">
+                recommend_code,
+            </if> 
+            <if test="longitude != null and longitude != ''">
+                longitude,
+            </if> 
+            <if test="latitude != null and latitude != ''">
+                latitude,
+            </if> 
+            <if test="lastLoginRegion != null and lastLoginRegion != ''">
+                last_login_region,
+            </if> 
+            <if test="location != null and location != ''">
+                location,
+            </if> 
+            <if test="chatImg != null and chatImg != ''">
+                chat_img,
+            </if> 
+            <if test="isGroud != null">
+                is_groud,
+            </if> 
+            <if test="signature != null and signature != ''">
+                signature,
+            </if> 
+            <if test="isCollectVisible != null">
+                is_collect_visible,
+            </if> 
+            <if test="isLongVideo != null">
+                is_long_video,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="username != null and username != ''">
+                #{username},
+            </if>  
+            <if test="password != null and password != ''">
+                #{password},
+            </if>  
+            <if test="phone != null and phone != ''">
+                #{phone},
+            </if>  
+            <if test="email != null and email != ''">
+                #{email},
+            </if>  
+            <if test="sex != null">
+                #{sex},
+            </if>  
+            <if test="status != null">
+                #{status},
+            </if>  
+            <if test="age != null">
+                #{age},
+            </if>  
+            <if test="nickname != null and nickname != ''">
+                #{nickname},
+            </if>  
+            <if test="regTime != null">
+                #{regTime},
+            </if>  
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>  
+            <if test="lastLoginTime != null">
+                #{lastLoginTime},
+            </if>  
+            <if test="userRole != null">
+                #{userRole},
+            </if>  
+            <if test="isAdvertise != null">
+                #{isAdvertise},
+            </if>  
+            <if test="cumulativeScore != null">
+                #{cumulativeScore},
+            </if>  
+            <if test="leftoverScore != null">
+                #{leftoverScore},
+            </if>  
+            <if test="attentionMessSortTypeIds != null and attentionMessSortTypeIds != ''">
+                #{attentionMessSortTypeIds},
+            </if>  
+            <if test="userLevelId != null">
+                #{userLevelId},
+            </if>  
+            <if test="bingoNum != null">
+                #{bingoNum},
+            </if>  
+            <if test="openId != null and openId != ''">
+                #{openId},
+            </if>  
+            <if test="wxNickname != null and wxNickname != ''">
+                #{wxNickname},
+            </if>  
+            <if test="userHeadImage != null and userHeadImage != ''">
+                #{userHeadImage},
+            </if>  
+            <if test="bgImage != null and bgImage != ''">
+                #{bgImage},
+            </if>  
+            <if test="birthDate != null">
+                #{birthDate},
+            </if>  
+            <if test="recommendPersonId != null and recommendPersonId != ''">
+                #{recommendPersonId},
+            </if>  
+            <if test="recommendCode != null and recommendCode != ''">
+                #{recommendCode},
+            </if>  
+            <if test="longitude != null and longitude != ''">
+                #{longitude},
+            </if>  
+            <if test="latitude != null and latitude != ''">
+                #{latitude},
+            </if>  
+            <if test="lastLoginRegion != null and lastLoginRegion != ''">
+                #{lastLoginRegion},
+            </if>  
+            <if test="location != null and location != ''">
+                #{location},
+            </if>  
+            <if test="chatImg != null and chatImg != ''">
+                #{chatImg},
+            </if>  
+            <if test="isGroud != null">
+                #{isGroud},
+            </if>  
+            <if test="signature != null and signature != ''">
+                #{signature},
+            </if>  
+            <if test="isCollectVisible != null">
+                #{isCollectVisible},
+            </if>  
+            <if test="isLongVideo != null">
+                #{isLongVideo},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+            <if test="regTime != null">
+                reg_time = #{regTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime},
+            </if>
+            <if test="userRole != null">
+                user_role = #{userRole},
+            </if>
+            <if test="isAdvertise != null">
+                is_advertise = #{isAdvertise},
+            </if>
+            <if test="cumulativeScore != null">
+                cumulative_score = #{cumulativeScore},
+            </if>
+            <if test="leftoverScore != null">
+                leftover_score = #{leftoverScore},
+            </if>
+            <if test="attentionMessSortTypeIds != null and attentionMessSortTypeIds != ''">
+                attention_mess_sort_type_ids = #{attentionMessSortTypeIds},
+            </if>
+            <if test="userLevelId != null">
+                user_level_id = #{userLevelId},
+            </if>
+            <if test="bingoNum != null">
+                bingo_num = #{bingoNum},
+            </if>
+            <if test="openId != null and openId != ''">
+                open_id = #{openId},
+            </if>
+            <if test="wxNickname != null and wxNickname != ''">
+                wx_nickname = #{wxNickname},
+            </if>
+            <if test="userHeadImage != null and userHeadImage != ''">
+                user_head_image = #{userHeadImage},
+            </if>
+            <if test="bgImage != null and bgImage != ''">
+                bg_image = #{bgImage},
+            </if>
+            <if test="birthDate != null">
+                birth_date = #{birthDate},
+            </if>
+            <if test="recommendPersonId != null and recommendPersonId != ''">
+                recommend_person_id = #{recommendPersonId},
+            </if>
+            <if test="recommendCode != null and recommendCode != ''">
+                recommend_code = #{recommendCode},
+            </if>
+            <if test="longitude != null and longitude != ''">
+                longitude = #{longitude},
+            </if>
+            <if test="latitude != null and latitude != ''">
+                latitude = #{latitude},
+            </if>
+            <if test="lastLoginRegion != null and lastLoginRegion != ''">
+                last_login_region = #{lastLoginRegion},
+            </if>
+            <if test="location != null and location != ''">
+                location = #{location},
+            </if>
+            <if test="chatImg != null and chatImg != ''">
+                chat_img = #{chatImg},
+            </if>
+            <if test="isGroud != null">
+                is_groud = #{isGroud},
+            </if>
+            <if test="signature != null and signature != ''">
+                signature = #{signature},
+            </if>
+            <if test="isCollectVisible != null">
+                is_collect_visible = #{isCollectVisible},
+            </if>
+            <if test="isLongVideo != null">
+                is_long_video = #{isLongVideo},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.user where id = #{id}
+    </delete>
+    
+    <update id="updateUserRole">
+        update weathersystem.user
+        set
+        user_role = #{userRole}
+        where id = #{userId}
+    </update>
+
+</mapper>

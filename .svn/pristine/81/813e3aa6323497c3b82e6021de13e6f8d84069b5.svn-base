@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.UserSettingMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.UserSetting" id="UserSettingMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="collectIsVisible" column="collect_is_visible" jdbcType="INTEGER"/>
+        <result property="noDisturbing" column="no_disturbing" jdbcType="INTEGER"/>
+        <result property="isSearch" column="is_search" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserSettingMap">
+        select
+          id, user_id, collect_is_visible, no_disturbing, is_search
+        from weathersystem.user_setting
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserSettingMap">
+        select
+          id, user_id, collect_is_visible, no_disturbing, is_search
+        from weathersystem.user_setting
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserSettingMap">
+        select
+          id, user_id, collect_is_visible, no_disturbing, is_search
+        from weathersystem.user_setting
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="collectIsVisible != null">
+                and collect_is_visible = #{collectIsVisible}
+            </if>
+            <if test="noDisturbing != null">
+                and no_disturbing = #{noDisturbing}
+            </if>
+            <if test="isSearch != null">
+                and is_search = #{isSearch}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.user_setting
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="collectIsVisible != null">
+                collect_is_visible,
+            </if> 
+            <if test="noDisturbing != null">
+                no_disturbing,
+            </if> 
+            <if test="isSearch != null">
+                is_search,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="collectIsVisible != null">
+                #{collectIsVisible},
+            </if>  
+            <if test="noDisturbing != null">
+                #{noDisturbing},
+            </if>  
+            <if test="isSearch != null">
+                #{isSearch},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.user_setting
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="collectIsVisible != null">
+                collect_is_visible = #{collectIsVisible},
+            </if>
+            <if test="noDisturbing != null">
+                no_disturbing = #{noDisturbing},
+            </if>
+            <if test="isSearch != null">
+                is_search = #{isSearch},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.user_setting where id = #{id}
+    </delete>
+
+</mapper>

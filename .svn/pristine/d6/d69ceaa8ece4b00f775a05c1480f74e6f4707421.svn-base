@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.PermissionMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.Permission" id="PermissionMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="perms" column="perms" jdbcType="VARCHAR"/>
+        <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createAdminId" column="create_admin_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PermissionMap">
+        select
+          id, name, description, url, perms, parent_id, type, order_num, status, create_time, update_time, create_admin_id
+        from weathersystem.permission
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="PermissionMap">
+        select
+          id, name, description, url, perms, parent_id, type, order_num, status, create_time, update_time, create_admin_id
+        from weathersystem.permission
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="PermissionMap">
+        select
+          id, name, description, url, perms, parent_id, type, order_num, status, create_time, update_time, create_admin_id
+        from weathersystem.permission
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="url != null and url != ''">
+                and url = #{url}
+            </if>
+            <if test="perms != null and perms != ''">
+                and perms = #{perms}
+            </if>
+            <if test="parentId != null">
+                and parent_id = #{parentId}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="orderNum != null">
+                and order_num = #{orderNum}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="createAdminId != null">
+                and create_admin_id = #{createAdminId}
+            </if>
+        </where>
+    </select>
+    <select id="selectByRoleId" resultMap="PermissionMap">
+        select a.* from permission a left join role_permission b on a.id = b.permission_id
+        where b.role_id = #{roleId}
+    </select>
+    <select id="selectAll" resultMap="PermissionMap">
+        select * from weathersystem.permission
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.permission
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name,
+            </if> 
+            <if test="description != null and description != ''">
+                description,
+            </if> 
+            <if test="url != null and url != ''">
+                url,
+            </if> 
+            <if test="perms != null and perms != ''">
+                perms,
+            </if> 
+            <if test="parentId != null">
+                parent_id,
+            </if> 
+            <if test="type != null">
+                type,
+            </if> 
+            <if test="orderNum != null">
+                order_num,
+            </if> 
+            <if test="status != null">
+                status,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+            <if test="updateTime != null">
+                update_time,
+            </if> 
+            <if test="createAdminId != null">
+                create_admin_id,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                #{name},
+            </if>  
+            <if test="description != null and description != ''">
+                #{description},
+            </if>  
+            <if test="url != null and url != ''">
+                #{url},
+            </if>  
+            <if test="perms != null and perms != ''">
+                #{perms},
+            </if>  
+            <if test="parentId != null">
+                #{parentId},
+            </if>  
+            <if test="type != null">
+                #{type},
+            </if>  
+            <if test="orderNum != null">
+                #{orderNum},
+            </if>  
+            <if test="status != null">
+                #{status},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>  
+            <if test="createAdminId != null">
+                #{createAdminId},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.permission
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="url != null and url != ''">
+                url = #{url},
+            </if>
+            <if test="perms != null and perms != ''">
+                perms = #{perms},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="createAdminId != null">
+                create_admin_id = #{createAdminId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.permission where id = #{id}
+    </delete>
+
+</mapper>

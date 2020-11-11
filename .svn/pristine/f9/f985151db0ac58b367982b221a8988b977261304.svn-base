@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.GoodsSortMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.GoodsSort" id="GoodsSortMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="sortName" column="sort_name" jdbcType="VARCHAR"/>
+        <result property="orderTag" column="order_tag" jdbcType="INTEGER"/>
+        <result property="sortImage" column="sort_image" jdbcType="VARCHAR"/>
+        <result property="recommendTag" column="recommend_tag" jdbcType="INTEGER"/>
+        <result property="addTime" column="add_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GoodsSortMap">
+        select
+          id, pid, sort_name, order_tag, sort_image, recommend_tag, add_time
+        from weathersystem.goods_sort
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GoodsSortMap">
+        select
+          id, pid, sort_name, order_tag, sort_image, recommend_tag, add_time
+        from weathersystem.goods_sort
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GoodsSortMap">
+        select
+          id, pid, sort_name, order_tag, sort_image, recommend_tag, add_time
+        from weathersystem.goods_sort
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="sortName != null and sortName != ''">
+                and sort_name = #{sortName}
+            </if>
+            <if test="orderTag != null">
+                and order_tag = #{orderTag}
+            </if>
+            <if test="sortImage != null and sortImage != ''">
+                and sort_image = #{sortImage}
+            </if>
+            <if test="recommendTag != null">
+                and recommend_tag = #{recommendTag}
+            </if>
+            <if test="addTime != null">
+                and add_time = #{addTime}
+            </if>
+        </where>
+        order by order_tag desc
+    </select>
+    <select id="selectAll" resultMap="GoodsSortMap">
+        select * from weathersystem.goods_sort order by order_tag desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.goods_sort
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="pid != null">
+                pid,
+            </if> 
+            <if test="sortName != null and sortName != ''">
+                sort_name,
+            </if> 
+            <if test="orderTag != null">
+                order_tag,
+            </if> 
+            <if test="sortImage != null and sortImage != ''">
+                sort_image,
+            </if> 
+            <if test="recommendTag != null">
+                recommend_tag,
+            </if> 
+            <if test="addTime != null">
+                add_time,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="pid != null">
+                #{pid},
+            </if>  
+            <if test="sortName != null and sortName != ''">
+                #{sortName},
+            </if>  
+            <if test="orderTag != null">
+                #{orderTag},
+            </if>  
+            <if test="sortImage != null and sortImage != ''">
+                #{sortImage},
+            </if>  
+            <if test="recommendTag != null">
+                #{recommendTag},
+            </if>  
+            <if test="addTime != null">
+                #{addTime},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.goods_sort
+        <set>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="sortName != null and sortName != ''">
+                sort_name = #{sortName},
+            </if>
+            <if test="orderTag != null">
+                order_tag = #{orderTag},
+            </if>
+            <if test="sortImage != null and sortImage != ''">
+                sort_image = #{sortImage},
+            </if>
+            <if test="recommendTag != null">
+                recommend_tag = #{recommendTag},
+            </if>
+            <if test="addTime != null">
+                add_time = #{addTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.goods_sort where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,72 @@
+package com.wanjia.infoshopmallmanage.entity;
+
+
+import java.util.List;
+
+/**
+ * (GoodsProperty)实体类
+ *
+ * @author: wlj
+ * @date: 2020-09-27 13:33:44
+ */
+public class GoodsProperty {
+    
+    private Long id;
+    /**
+    * 商品id
+    */
+    private Long goodsId;
+    /**
+    * 属性名
+    */
+    private String goodsPropertyName;
+    /**
+     * 商品规格
+     */
+    private List<GoodsSize> goodsSizes;
+    /**
+    * 备注
+    */
+    private String remarks;
+
+    public List<GoodsSize> getGoodsSizes() {
+        return goodsSizes;
+    }
+
+    public void setGoodsSizes(List<GoodsSize> goodsSizes) {
+        this.goodsSizes = goodsSizes;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+        
+    public Long getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
+    }
+        
+    public String getGoodsPropertyName() {
+        return goodsPropertyName;
+    }
+
+    public void setGoodsPropertyName(String goodsPropertyName) {
+        this.goodsPropertyName = goodsPropertyName;
+    }
+        
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+}

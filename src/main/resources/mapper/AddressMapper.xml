@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.AddressMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.Address" id="AddressMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="recPerson" column="rec_person" jdbcType="VARCHAR"/>
+        <result property="recPersonPhone" column="rec_person_phone" jdbcType="VARCHAR"/>
+        <result property="region" column="region" jdbcType="VARCHAR"/>
+        <result property="addrTag" column="addr_tag" jdbcType="VARCHAR"/>
+        <result property="isDefaultAddr" column="is_default_addr" jdbcType="INTEGER"/>
+        <result property="addrDetail" column="addr_detail" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AddressMap">
+        select
+          id, user_id, rec_person, rec_person_phone, region, addr_tag, is_default_addr, addr_detail
+        from weathersystem.address
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AddressMap">
+        select
+          id, user_id, rec_person, rec_person_phone, region, addr_tag, is_default_addr, addr_detail
+        from weathersystem.address
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AddressMap">
+        select
+          id, user_id, rec_person, rec_person_phone, region, addr_tag, is_default_addr, addr_detail
+        from weathersystem.address
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="recPerson != null and recPerson != ''">
+                and rec_person = #{recPerson}
+            </if>
+            <if test="recPersonPhone != null and recPersonPhone != ''">
+                and rec_person_phone = #{recPersonPhone}
+            </if>
+            <if test="region != null and region != ''">
+                and region = #{region}
+            </if>
+            <if test="addrTag != null and addrTag != ''">
+                and addr_tag = #{addrTag}
+            </if>
+            <if test="isDefaultAddr != null">
+                and is_default_addr = #{isDefaultAddr}
+            </if>
+            <if test="addrDetail != null and addrDetail != ''">
+                and addr_detail = #{addrDetail}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.address
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="recPerson != null and recPerson != ''">
+                rec_person,
+            </if> 
+            <if test="recPersonPhone != null and recPersonPhone != ''">
+                rec_person_phone,
+            </if> 
+            <if test="region != null and region != ''">
+                region,
+            </if> 
+            <if test="addrTag != null and addrTag != ''">
+                addr_tag,
+            </if> 
+            <if test="isDefaultAddr != null">
+                is_default_addr,
+            </if> 
+            <if test="addrDetail != null and addrDetail != ''">
+                addr_detail,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="recPerson != null and recPerson != ''">
+                #{recPerson},
+            </if>  
+            <if test="recPersonPhone != null and recPersonPhone != ''">
+                #{recPersonPhone},
+            </if>  
+            <if test="region != null and region != ''">
+                #{region},
+            </if>  
+            <if test="addrTag != null and addrTag != ''">
+                #{addrTag},
+            </if>  
+            <if test="isDefaultAddr != null">
+                #{isDefaultAddr},
+            </if>  
+            <if test="addrDetail != null and addrDetail != ''">
+                #{addrDetail},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.address
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="recPerson != null and recPerson != ''">
+                rec_person = #{recPerson},
+            </if>
+            <if test="recPersonPhone != null and recPersonPhone != ''">
+                rec_person_phone = #{recPersonPhone},
+            </if>
+            <if test="region != null and region != ''">
+                region = #{region},
+            </if>
+            <if test="addrTag != null and addrTag != ''">
+                addr_tag = #{addrTag},
+            </if>
+            <if test="isDefaultAddr != null">
+                is_default_addr = #{isDefaultAddr},
+            </if>
+            <if test="addrDetail != null and addrDetail != ''">
+                addr_detail = #{addrDetail},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.address where id = #{id}
+    </delete>
+
+</mapper>

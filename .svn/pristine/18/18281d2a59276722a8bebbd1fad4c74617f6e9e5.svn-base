@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.FollowMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.Follow" id="FollowMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="followerId" column="follower_id" jdbcType="INTEGER"/>
+        <result property="concernerId" column="concerner_id" jdbcType="INTEGER"/>
+        <result property="followTime" column="follow_time" jdbcType="TIMESTAMP"/>
+        <result property="eachotherAttention" column="eachother_attention" jdbcType="INTEGER"/>
+        <result property="friendGroupId" column="friend_group_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="FollowMap">
+        select
+          id, follower_id, concerner_id, follow_time, eachother_attention, friend_group_id
+        from weathersystem.follow
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="FollowMap">
+        select
+          id, follower_id, concerner_id, follow_time, eachother_attention, friend_group_id
+        from weathersystem.follow
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="FollowMap">
+        select
+          id, follower_id, concerner_id, follow_time, eachother_attention, friend_group_id
+        from weathersystem.follow
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="followerId != null">
+                and follower_id = #{followerId}
+            </if>
+            <if test="concernerId != null">
+                and concerner_id = #{concernerId}
+            </if>
+            <if test="followTime != null">
+                and follow_time = #{followTime}
+            </if>
+            <if test="eachotherAttention != null">
+                and eachother_attention = #{eachotherAttention}
+            </if>
+            <if test="friendGroupId != null">
+                and friend_group_id = #{friendGroupId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.follow
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="followerId != null">
+                follower_id,
+            </if> 
+            <if test="concernerId != null">
+                concerner_id,
+            </if> 
+            <if test="followTime != null">
+                follow_time,
+            </if> 
+            <if test="eachotherAttention != null">
+                eachother_attention,
+            </if> 
+            <if test="friendGroupId != null">
+                friend_group_id,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="followerId != null">
+                #{followerId},
+            </if>  
+            <if test="concernerId != null">
+                #{concernerId},
+            </if>  
+            <if test="followTime != null">
+                #{followTime},
+            </if>  
+            <if test="eachotherAttention != null">
+                #{eachotherAttention},
+            </if>  
+            <if test="friendGroupId != null">
+                #{friendGroupId},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.follow
+        <set>
+            <if test="followerId != null">
+                follower_id = #{followerId},
+            </if>
+            <if test="concernerId != null">
+                concerner_id = #{concernerId},
+            </if>
+            <if test="followTime != null">
+                follow_time = #{followTime},
+            </if>
+            <if test="eachotherAttention != null">
+                eachother_attention = #{eachotherAttention},
+            </if>
+            <if test="friendGroupId != null">
+                friend_group_id = #{friendGroupId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.follow where id = #{id}
+    </delete>
+
+</mapper>

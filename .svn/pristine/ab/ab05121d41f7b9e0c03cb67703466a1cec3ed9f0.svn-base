@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.ExamineMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.Examine" id="ExamineMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="companyNature" column="company_nature" jdbcType="INTEGER"/>
+        <result property="companyName" column="company_name" jdbcType="VARCHAR"/>
+        <result property="businessNum" column="business_num" jdbcType="VARCHAR"/>
+        <result property="businessLicense" column="business_license" jdbcType="VARCHAR"/>
+        <result property="idcardName" column="idcard_name" jdbcType="VARCHAR"/>
+        <result property="idcardNum" column="idcard_num" jdbcType="VARCHAR"/>
+        <result property="idcardImages" column="idcard_images" jdbcType="VARCHAR"/>
+        <result property="companyAddr" column="company_addr" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="reviewerId" column="reviewer_id" jdbcType="BIGINT"/>
+        <result property="failReason" column="fail_reason" jdbcType="VARCHAR"/>
+        <result property="reviewStatus" column="review_status" jdbcType="INTEGER"/>
+        <result property="applyType" column="apply_type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ExamineMap">
+        select
+          id, user_id, company_nature, company_name, business_num, business_license, idcard_name, idcard_num, idcard_images, company_addr, create_time, reviewer_id, fail_reason, review_status, apply_type
+        from weathersystem.examine
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ExamineMap">
+        select
+          id, user_id, company_nature, company_name, business_num, business_license, idcard_name, idcard_num, idcard_images, company_addr, create_time, reviewer_id, fail_reason, review_status, apply_type
+        from weathersystem.examine
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ExamineMap">
+        select
+          id, user_id, company_nature, company_name, business_num, business_license, idcard_name, idcard_num, idcard_images, company_addr, create_time, reviewer_id, fail_reason, review_status, apply_type
+        from weathersystem.examine
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="companyNature != null">
+                and company_nature = #{companyNature}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and company_name = #{companyName}
+            </if>
+            <if test="businessNum != null and businessNum != ''">
+                and business_num = #{businessNum}
+            </if>
+            <if test="businessLicense != null and businessLicense != ''">
+                and business_license = #{businessLicense}
+            </if>
+            <if test="idcardName != null and idcardName != ''">
+                and idcard_name = #{idcardName}
+            </if>
+            <if test="idcardNum != null and idcardNum != ''">
+                and idcard_num = #{idcardNum}
+            </if>
+            <if test="idcardImages != null and idcardImages != ''">
+                and idcard_images = #{idcardImages}
+            </if>
+            <if test="companyAddr != null and companyAddr != ''">
+                and company_addr = #{companyAddr}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="reviewerId != null">
+                and reviewer_id = #{reviewerId}
+            </if>
+            <if test="failReason != null and failReason != ''">
+                and fail_reason = #{failReason}
+            </if>
+            <if test="reviewStatus != null">
+                and review_status = #{reviewStatus}
+            </if>
+            <if test="applyType != null">
+                and apply_type = #{applyType}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.examine
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="companyNature != null">
+                company_nature,
+            </if> 
+            <if test="companyName != null and companyName != ''">
+                company_name,
+            </if> 
+            <if test="businessNum != null and businessNum != ''">
+                business_num,
+            </if> 
+            <if test="businessLicense != null and businessLicense != ''">
+                business_license,
+            </if> 
+            <if test="idcardName != null and idcardName != ''">
+                idcard_name,
+            </if> 
+            <if test="idcardNum != null and idcardNum != ''">
+                idcard_num,
+            </if> 
+            <if test="idcardImages != null and idcardImages != ''">
+                idcard_images,
+            </if> 
+            <if test="companyAddr != null and companyAddr != ''">
+                company_addr,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+            <if test="reviewerId != null">
+                reviewer_id,
+            </if> 
+            <if test="failReason != null and failReason != ''">
+                fail_reason,
+            </if> 
+            <if test="reviewStatus != null">
+                review_status,
+            </if> 
+            <if test="applyType != null">
+                apply_type,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="companyNature != null">
+                #{companyNature},
+            </if>  
+            <if test="companyName != null and companyName != ''">
+                #{companyName},
+            </if>  
+            <if test="businessNum != null and businessNum != ''">
+                #{businessNum},
+            </if>  
+            <if test="businessLicense != null and businessLicense != ''">
+                #{businessLicense},
+            </if>  
+            <if test="idcardName != null and idcardName != ''">
+                #{idcardName},
+            </if>  
+            <if test="idcardNum != null and idcardNum != ''">
+                #{idcardNum},
+            </if>  
+            <if test="idcardImages != null and idcardImages != ''">
+                #{idcardImages},
+            </if>  
+            <if test="companyAddr != null and companyAddr != ''">
+                #{companyAddr},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+            <if test="reviewerId != null">
+                #{reviewerId},
+            </if>  
+            <if test="failReason != null and failReason != ''">
+                #{failReason},
+            </if>  
+            <if test="reviewStatus != null">
+                #{reviewStatus},
+            </if>  
+            <if test="applyType != null">
+                #{applyType},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.examine
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="companyNature != null">
+                company_nature = #{companyNature},
+            </if>
+            <if test="companyName != null and companyName != ''">
+                company_name = #{companyName},
+            </if>
+            <if test="businessNum != null and businessNum != ''">
+                business_num = #{businessNum},
+            </if>
+            <if test="businessLicense != null and businessLicense != ''">
+                business_license = #{businessLicense},
+            </if>
+            <if test="idcardName != null and idcardName != ''">
+                idcard_name = #{idcardName},
+            </if>
+            <if test="idcardNum != null and idcardNum != ''">
+                idcard_num = #{idcardNum},
+            </if>
+            <if test="idcardImages != null and idcardImages != ''">
+                idcard_images = #{idcardImages},
+            </if>
+            <if test="companyAddr != null and companyAddr != ''">
+                company_addr = #{companyAddr},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="reviewerId != null">
+                reviewer_id = #{reviewerId},
+            </if>
+            <if test="failReason != null and failReason != ''">
+                fail_reason = #{failReason},
+            </if>
+            <if test="reviewStatus != null">
+                review_status = #{reviewStatus},
+            </if>
+            <if test="applyType != null">
+                apply_type = #{applyType},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.examine where id = #{id}
+    </delete>
+	
+	<!-- 获取待审核的企业申请信息 -->
+	<select id="getExamines" resultMap="ExamineMap">
+		select id, user_id, company_nature, company_name, business_num, business_license, 
+	    idcard_name, idcard_num, idcard_images, company_addr
+	    from examine where review_status = 2 and apply_type = 0
+	</select>
+</mapper>

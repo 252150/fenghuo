@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.MessPublishMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.MessPublish" id="MessPublishMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="messImage" column="mess_image" jdbcType="VARCHAR"/>
+        <result property="messVidio" column="mess_vidio" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="goodsId" column="goods_id" jdbcType="INTEGER"/>
+        <result property="messText" column="mess_text" jdbcType="VARCHAR"/>
+        <result property="messSortGrade" column="mess_sort_grade" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="messState" column="mess_state" jdbcType="INTEGER"/>
+        <result property="messType" column="mess_type" jdbcType="INTEGER"/>
+        <result property="messLljf" column="mess_lljf" jdbcType="INTEGER"/>
+        <result property="messCount" column="mess_count" jdbcType="INTEGER"/>
+        <result property="messCollect" column="mess_collect" jdbcType="INTEGER"/>
+        <result property="messScope" column="mess_scope" jdbcType="INTEGER"/>
+        <result property="messRefer" column="mess_refer" jdbcType="INTEGER"/>
+        <result property="messTypeId" column="mess_type_id" jdbcType="INTEGER"/>
+        <result property="overTime" column="over_time" jdbcType="TIMESTAMP"/>
+        <result property="longitude" column="longitude" jdbcType="INTEGER"/>
+        <result property="latitude" column="latitude" jdbcType="INTEGER"/>
+        <result property="radius" column="radius" jdbcType="INTEGER"/>
+         <result property="adminAccountName" column="admin_account_name" jdbcType="VARCHAR"/>
+         
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MessPublishMap">
+        select
+          id, title, mess_image, mess_vidio, user_id, goods_id, mess_text, mess_sort_grade, create_time, mess_state, mess_type, mess_lljf, mess_count, mess_collect, mess_scope, mess_refer, mess_type_id, over_time
+          ,longitude,latitude,radius
+        from weathersystem.mess_publish
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="MessPublishMap">
+        select
+          id, title, mess_image, mess_vidio, user_id, goods_id, mess_text, mess_sort_grade, create_time, mess_state, mess_type, mess_lljf, mess_count, mess_collect, mess_scope, mess_refer, mess_type_id, over_time,
+         , longitude,latitude,radius
+        from weathersystem.mess_publish
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="MessPublishMap">
+        select
+         mp. id, mp.title, mp.mess_image, mp.mess_vidio, mp.user_id, mp.goods_id, mp.mess_text, mp.mess_sort_grade, mp.create_time, mp.mess_state, mp.mess_type, mp.mess_lljf, mp.mess_count, mp.mess_collect, mp.mess_scope, mp.mess_refer, mp.mess_type_id, mp.over_time
+           ,mp.longitude,mp.latitude,mp.radius
+        from weathersystem.mess_publish  mp,user u
+        where  mp.user_id=u.id
+         
+            
+                and   u.user_role=3
+            
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="title != null and title != ''">
+                and title  LIKE concat('%',#{title},'%')
+            </if>
+            <if test="messImage != null and messImage != ''">
+                and mess_image = #{messImage}
+            </if>
+            <if test="messVidio != null and messVidio != ''">
+                and mess_vidio = #{messVidio}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="goodsId != null">
+                and goods_id = #{goodsId}
+            </if>
+            <if test="messText != null and messText != ''">
+                and mess_text  LIKE concat('%',#{messText},'%')
+            </if>
+            <if test="messSortGrade != null">
+                and mess_sort_grade = #{messSortGrade}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="messState != null">
+                and mess_state = #{messState}
+            </if>
+            <if test="messType != null">
+                and mess_type = #{messType}
+            </if>
+            <if test="messLljf != null">
+                and mess_lljf = #{messLljf}
+            </if>
+            <if test="messCount != null">
+                and mess_count = #{messCount}
+            </if>
+            <if test="messCollect != null">
+                and mess_collect = #{messCollect}
+            </if>
+            <if test="messScope != null">
+                and mess_scope = #{messScope}
+            </if>
+            <if test="messRefer != null">
+                and mess_refer = #{messRefer}
+            </if>
+            <if test="messTypeId != null">
+                and mess_type_id = #{messTypeId}
+            </if>
+            <if test="overTimeType ==1">
+                and over_time <![CDATA[ <= ]]> #{overTime}
+            </if>
+            <if test="overTimeType==0">
+            and   over_time <![CDATA[ >= ]]> #{overTime}
+            </if>
+        
+    </select>
+
+    <!--通过实体查询系统消息-->
+    <select id="queryAllAdmin" resultMap="MessPublishMap">
+        select
+         mp. id, mp.title, mp.mess_image, mp.mess_vidio, mp.user_id, mp.goods_id, mp.mess_text, mp.mess_sort_grade, mp.create_time, mp.mess_state, mp.mess_type, mp.mess_lljf, mp.mess_count, mp.mess_collect, mp.mess_scope, mp.mess_refer, mp.mess_type_id, mp.over_time
+           ,mp.longitude,mp.latitude,mp.radius ,a.admin_account_name
+        from weathersystem.mess_publish  mp,admin a
+        where  mp.admin_id=a.id
+             
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="title != null and title != ''">
+                and title  LIKE concat('%',#{title},'%')
+            </if>
+            <if test="messImage != null and messImage != ''">
+                and mess_image = #{messImage}
+            </if>
+            <if test="messVidio != null and messVidio != ''">
+                and mess_vidio = #{messVidio}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="goodsId != null">
+                and goods_id = #{goodsId}
+            </if>
+            <if test="messText != null and messText != ''">
+                and mess_text  LIKE concat('%',#{messText},'%')
+            </if>
+            <if test="messSortGrade != null">
+                and mess_sort_grade = #{messSortGrade}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="messState != null">
+                and mess_state = #{messState}
+            </if>
+            <if test="messType != null">
+                and mess_type = #{messType}
+            </if>
+            <if test="messLljf != null">
+                and mess_lljf = #{messLljf}
+            </if>
+            <if test="messCount != null">
+                and mess_count = #{messCount}
+            </if>
+            <if test="messCollect != null">
+                and mess_collect = #{messCollect}
+            </if>
+            <if test="messScope != null">
+                and mess_scope = #{messScope}
+            </if>
+            <if test="messRefer != null">
+                and mess_refer = #{messRefer}
+            </if>
+            <if test="messTypeId != null">
+                and mess_type_id = #{messTypeId}
+            </if>
+            <if test="overTimeType ==1">
+                and over_time <![CDATA[ <= ]]> #{overTime}
+            </if>
+            <if test="overTimeType==0">
+            and   over_time <![CDATA[ >= ]]> #{overTime}
+            </if>
+        
+    </select>
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.mess_publish
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="title != null and title != ''">
+                title,
+            </if> 
+            <if test="messImage != null and messImage != ''">
+                mess_image,
+            </if> 
+            <if test="messVidio != null and messVidio != ''">
+                mess_vidio,
+            </if> 
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="goodsId != null">
+                goods_id,
+            </if> 
+            <if test="messText != null and messText != ''">
+                mess_text,
+            </if> 
+            <if test="messSortGrade != null">
+                mess_sort_grade,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+            <if test="messState != null">
+                mess_state,
+            </if> 
+            <if test="messType != null">
+                mess_type,
+            </if> 
+            <if test="messLljf != null">
+                mess_lljf,
+            </if> 
+            <if test="messCount != null">
+                mess_count,
+            </if> 
+            <if test="messCollect != null">
+                mess_collect,
+            </if> 
+            <if test="messScope != null">
+                mess_scope,
+            </if> 
+            <if test="messRefer != null">
+                mess_refer,
+            </if> 
+            <if test="messTypeId != null">
+                mess_type_id,
+            </if> 
+            <if test="overTime != null">
+                over_time,
+            </if> 
+             <if test="longitude != null">
+                longitude,
+            </if> 
+             <if test="latitude != null">
+                latitude,
+            </if> 
+            <if test="radius != null">
+                radius,
+            </if> 
+            <if test="admin != null">
+                admin_id,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="title != null and title != ''">
+                #{title},
+            </if>  
+            <if test="messImage != null and messImage != ''">
+                #{messImage},
+            </if>  
+            <if test="messVidio != null and messVidio != ''">
+                #{messVidio},
+            </if>  
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>  
+            <if test="messText != null and messText != ''">
+                #{messText},
+            </if>  
+            <if test="messSortGrade != null">
+                #{messSortGrade},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+            <if test="messState != null">
+                #{messState},
+            </if>  
+            <if test="messType != null">
+                #{messType},
+            </if>  
+            <if test="messLljf != null">
+                #{messLljf},
+            </if>  
+            <if test="messCount != null">
+                #{messCount},
+            </if>  
+            <if test="messCollect != null">
+                #{messCollect},
+            </if>  
+            <if test="messScope != null">
+                #{messScope},
+            </if>  
+            <if test="messRefer != null">
+                #{messRefer},
+            </if>  
+            <if test="messTypeId != null">
+                #{messTypeId},
+            </if>  
+            <if test="overTime != null">
+                #{overTime},
+            </if>
+             <if test="longitude != null">
+                #{longitude},
+            </if> 
+             <if test="latitude != null">
+                #{latitude},
+            </if> 
+            <if test="radius != null">
+                #{radius},
+            </if>
+                        <if test="admin != null">
+                #{admin},
+            </if>   
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.mess_publish
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="messImage != null and messImage != ''">
+                mess_image = #{messImage},
+            </if>
+            <if test="messVidio != null and messVidio != ''">
+                mess_vidio = #{messVidio},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId},
+            </if>
+            <if test="messText != null and messText != ''">
+                mess_text = #{messText},
+            </if>
+            <if test="messSortGrade != null">
+                mess_sort_grade = #{messSortGrade},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="messState != null">
+                mess_state = #{messState},
+            </if>
+            <if test="messType != null">
+                mess_type = #{messType},
+            </if>
+            <if test="messLljf != null">
+                mess_lljf = #{messLljf},
+            </if>
+            <if test="messCount != null">
+                mess_count = #{messCount},
+            </if>
+            <if test="messCollect != null">
+                mess_collect = #{messCollect},
+            </if>
+            <if test="messScope != null">
+                mess_scope = #{messScope},
+            </if>
+            <if test="messRefer != null">
+                mess_refer = #{messRefer},
+            </if>
+            <if test="messTypeId != null">
+                mess_type_id = #{messTypeId},
+            </if>
+            <if test="overTime != null">
+                over_time = #{overTime},
+            </if>
+             <if test="longitude != null">
+                longitude = #{longitude},
+            </if>
+            <if test="latitude != null">
+                latitude = #{latitude},
+            </if>
+            <if test="radius != null">
+                radius = #{radius},
+            </if>
+            <if test="admin != null">
+             admin_id=   #{admin},
+            </if> 
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.mess_publish where id = #{id}
+    </delete>
+
+</mapper>

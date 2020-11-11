@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.AdvertiseMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.Advertise" id="AdvertiseMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="advertiseType" column="advertise_type" jdbcType="INTEGER"/>
+        <result property="advertiseTitle" column="advertise_title" jdbcType="VARCHAR"/>
+        <result property="imageName" column="image_name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="sxTime" column="sx_time" jdbcType="TIMESTAMP"/>
+        <result property="overTime" column="over_time" jdbcType="TIMESTAMP"/>
+        <result property="stopTime" column="stop_time" jdbcType="TIMESTAMP"/>
+        <result property="tfTimeBeg" column="tf_time_beg" jdbcType="TIMESTAMP"/>
+        <result property="tfTimeEnd" column="tf_time_end" jdbcType="TIMESTAMP"/>
+        <result property="advertiseStatus" column="advertise_status" jdbcType="INTEGER"/>
+        <result property="advertiseUrl" column="advertise_url" jdbcType="VARCHAR"/>
+        <result property="adPoints" column="AD_points" jdbcType="INTEGER"/>
+        <result property="adDuration" column="AD_duration" jdbcType="INTEGER"/>
+        <result property="leastTime" column="least_time" jdbcType="INTEGER"/>
+        <result property="isQzts" column="is_qzts" jdbcType="INTEGER"/>
+        <result property="advertiseAmount" column="advertise_amount" jdbcType="OTHER"/>
+        <result property="advertiseuserName" column="advertiseUser_name" jdbcType="VARCHAR"/>
+        <result property="clickNum" column="click_num" jdbcType="INTEGER"/>
+        <result property="contenttype" column="contentType" jdbcType="INTEGER"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="admin_account_name" column="nickname" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AdvertiseMap">
+        select
+          id, advertise_type, advertise_title, image_name, create_time, sx_time, over_time, stop_time, tf_time_beg, tf_time_end, advertise_status, advertise_url, AD_points, AD_duration, least_time, is_qzts, advertise_amount, advertiseUser_name, click_num, contentType, icon
+        from weathersystem.advertise
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AdvertiseMap">
+        select
+          id, advertise_type, advertise_title, image_name, create_time, sx_time, over_time, stop_time, tf_time_beg, tf_time_end, advertise_status, advertise_url, AD_points, AD_duration, least_time, is_qzts, advertise_amount, advertiseUser_name, click_num, contentType, icon
+        from weathersystem.advertise
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AdvertiseMap">
+        select
+         a. id, advertise_type, advertise_title, image_name, create_time, sx_time, over_time, stop_time, tf_time_beg, tf_time_end, advertise_status, advertise_url, AD_points, AD_duration, least_time, is_qzts, advertise_amount, advertiseUser_name, click_num, contentType, icon
+          ,user_id ,admin.admin_account_name
+        from weathersystem.advertise a,weathersystem.admin 
+       where   
+                a.admin_id=admin.id and
+                sx_time<![CDATA[ <= ]]>#{createTime}
+         
+                and over_time <![CDATA[ >= ]]> #{createTime}
+                
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="advertiseType != null">
+                and advertise_type = #{advertiseType}
+            </if>
+            <if test="advertiseTitle != null and advertiseTitle != ''">
+                and advertise_title LIKE concat('%',#{advertiseTitle},'%')
+
+                
+            </if>
+            <if test="imageName != null and imageName != ''">
+                and image_name = #{imageName}
+            </if>
+       
+            <if test="stopTime != null">
+                and stop_time = #{stopTime}
+            </if>
+            <if test="tfTimeBeg != null">
+                and tf_time_beg = #{tfTimeBeg}
+            </if>
+            <if test="tfTimeEnd != null">
+                and tf_time_end = #{tfTimeEnd}
+            </if>
+            <if test="advertiseStatus != null">
+                and advertise_status = #{advertiseStatus}
+            </if>
+            <if test="advertiseUrl != null and advertiseUrl != ''">
+                and advertise_url = #{advertiseUrl}
+            </if>
+            <if test="adPoints != null">
+                and AD_points = #{adPoints}
+            </if>
+            <if test="adDuration != null">
+                and AD_duration = #{adDuration}
+            </if>
+            <if test="leastTime != null">
+                and least_time = #{leastTime}
+            </if>
+            <if test="isQzts != null">
+                and is_qzts = #{isQzts}
+            </if>
+            <if test="advertiseAmount != null">
+                and advertise_amount = #{advertiseAmount}
+            </if>
+            <if test="advertiseuserName != null and advertiseuserName != ''">
+                and advertiseUser_name LIKE concat('%',#{advertiseuserName},'%')
+            </if>
+            <if test="isclick == 1">
+                and click_num<![CDATA[ >= ]]>#{clickNum}
+            </if>
+             <if test="isclick == 0">
+                and click_num<![CDATA[ <= ]]>#{clickNum}
+            </if>
+            <if test="contenttype != null">
+                and contentType = #{contenttype}
+            </if>
+            <if test="icon != null and icon != ''">
+                and icon = #{icon}
+            </if>
+       
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.advertise
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="advertiseType != null">
+                advertise_type,
+            </if> 
+            <if test="advertiseTitle != null and advertiseTitle != ''">
+                advertise_title,
+            </if> 
+            <if test="imageName != null and imageName != ''">
+                image_name,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+            <if test="sxTime != null">
+                sx_time,
+            </if> 
+            <if test="overTime != null">
+                over_time,
+            </if> 
+            <if test="stopTime != null">
+                stop_time,
+            </if> 
+            <if test="tfTimeBeg != null">
+                tf_time_beg,
+            </if> 
+            <if test="tfTimeEnd != null">
+                tf_time_end,
+            </if> 
+            <if test="advertiseStatus != null">
+                advertise_status,
+            </if> 
+            <if test="advertiseUrl != null and advertiseUrl != ''">
+                advertise_url,
+            </if> 
+            <if test="adPoints != null">
+                AD_points,
+            </if> 
+            <if test="adDuration != null">
+                AD_duration,
+            </if> 
+            <if test="leastTime != null">
+                least_time,
+            </if> 
+            <if test="isQzts != null">
+                is_qzts,
+            </if> 
+            <if test="advertiseAmount != null">
+                advertise_amount,
+            </if> 
+            <if test="advertiseuserName != null and advertiseuserName != ''">
+                advertiseUser_name,
+            </if> 
+            <if test="clickNum != null">
+                click_num,
+            </if> 
+            <if test="contenttype != null">
+                contentType,
+            </if> 
+            <if test="icon != null and icon != ''">
+                icon,
+            </if> 
+           <if test="userId  != null ">
+                admin_id,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="advertiseType != null">
+                #{advertiseType},
+            </if>  
+            <if test="advertiseTitle != null and advertiseTitle != ''">
+                #{advertiseTitle},
+            </if>  
+            <if test="imageName != null and imageName != ''">
+                #{imageName},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+            <if test="sxTime != null">
+                #{sxTime},
+            </if>  
+            <if test="overTime != null">
+                #{overTime},
+            </if>  
+            <if test="stopTime != null">
+                #{stopTime},
+            </if>  
+            <if test="tfTimeBeg != null">
+                #{tfTimeBeg},
+            </if>  
+            <if test="tfTimeEnd != null">
+                #{tfTimeEnd},
+            </if>  
+            <if test="advertiseStatus != null">
+                #{advertiseStatus},
+            </if>  
+            <if test="advertiseUrl != null and advertiseUrl != ''">
+                #{advertiseUrl},
+            </if>  
+            <if test="adPoints != null">
+                #{adPoints},
+            </if>  
+            <if test="adDuration != null">
+                #{adDuration},
+            </if>  
+            <if test="leastTime != null">
+                #{leastTime},
+            </if>  
+            <if test="isQzts != null">
+                #{isQzts},
+            </if>  
+            <if test="advertiseAmount != null">
+                #{advertiseAmount},
+            </if>  
+            <if test="advertiseuserName != null and advertiseuserName != ''">
+                #{advertiseuserName},
+            </if>  
+            <if test="clickNum != null">
+                #{clickNum},
+            </if>  
+            <if test="contenttype != null">
+                #{contenttype},
+            </if>  
+            <if test="icon != null and icon != ''">
+                #{icon},
+            </if> 
+            <if test="userId  != null ">
+                #{userId},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.advertise
+        <set>
+            <if test="advertiseType != null">
+                advertise_type = #{advertiseType},
+            </if>
+            <if test="advertiseTitle != null and advertiseTitle != ''">
+                advertise_title = #{advertiseTitle},
+            </if>
+            <if test="imageName != null and imageName != ''">
+                image_name = #{imageName},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="sxTime != null">
+                sx_time = #{sxTime},
+            </if>
+            <if test="overTime != null">
+                over_time = #{overTime},
+            </if>
+            <if test="stopTime != null">
+                stop_time = #{stopTime},
+            </if>
+            <if test="tfTimeBeg != null">
+                tf_time_beg = #{tfTimeBeg},
+            </if>
+            <if test="tfTimeEnd != null">
+                tf_time_end = #{tfTimeEnd},
+            </if>
+            <if test="advertiseStatus != null">
+                advertise_status = #{advertiseStatus},
+            </if>
+            <if test="advertiseUrl != null and advertiseUrl != ''">
+                advertise_url = #{advertiseUrl},
+            </if>
+            <if test="adPoints != null">
+                AD_points = #{adPoints},
+            </if>
+            <if test="adDuration != null">
+                AD_duration = #{adDuration},
+            </if>
+            <if test="leastTime != null">
+                least_time = #{leastTime},
+            </if>
+            <if test="isQzts != null">
+                is_qzts = #{isQzts},
+            </if>
+            <if test="advertiseAmount != null">
+                advertise_amount = #{advertiseAmount},
+            </if>
+            <if test="advertiseuserName != null and advertiseuserName != ''">
+                advertiseUser_name = #{advertiseuserName},
+            </if>
+            <if test="clickNum != null">
+                click_num = #{clickNum},
+            </if>
+            <if test="contenttype != null">
+                contentType = #{contenttype},
+            </if>
+            <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+             <if test="userId  != null ">
+           admin_id=     #{userId},
+            </if> 
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.advertise where id = #{id}
+    </delete>
+
+</mapper>

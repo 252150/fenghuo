@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b603a1d9-342f-4235-a465-54f2bb9ff7e3" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="F:\java\maven\repository" />
+        <option name="mavenHome" value="F:/java/maven/apache-maven-3.5.4" />
+        <option name="userSettingsFile" value="F:\java\maven\apache-maven-3.5.4\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1i547lBJRGNwvI3lZ0CEQWJUSWn" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/wanjia/infoshopmallmanage" />
+    <property name="settings.editor.selected.configurable" value="com.sjhy.plugin.ui.TypeMapperSetting" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\wanjia\InfoShopMallManage\src\main\java\com\wanjia\infoshopmallmanage" />
+      <recent name="D:\wanjia\InfoShopMallManage\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="InfoshopmallmanageApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="InfoShopMallManage" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.wanjia.infoshopmallmanage.InfoShopMallManageApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\wu\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b603a1d9-342f-4235-a465-54f2bb9ff7e3" name="Default Changelist" comment="" />
+      <created>1601183953067</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1601183953067</updated>
+      <workItem from="1601183957344" duration="2545000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="初始化" />
+    <option name="LAST_COMMIT_MESSAGE" value="初始化" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="675" y="92" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601184709240">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="675" y="92" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1601184709240" />
+    <state x="499" y="188" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1601184816847">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="188" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1601184816847" />
+    <state x="489" y="155" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1601185142185">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="489" y="155" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1601185142185" />
+    <state x="549" y="153" key="FileChooserDialogImpl" timestamp="1601186197093">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="153" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1601186197093" />
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1601185699355">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1601185699355" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1601185699355">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1601185699355" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1601185699355">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1601185699355" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1601185699355">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1601185699355" />
+    <state x="270" y="57" key="SettingsEditor" timestamp="1601184794713">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1601184794713" />
+    <state x="93" y="93" width="1350" height="638" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1601186062243">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1601186062243" />
+    <state x="599" y="203" key="svn.repositoryBrowser" timestamp="1601186210267">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="599" y="203" key="svn.repositoryBrowser/0.0.1536.824@0.0.1536.824" timestamp="1601186210267" />
+    <state x="466" y="184" key="svn4idea.import.options" timestamp="1601186207766">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="466" y="184" key="svn4idea.import.options/0.0.1536.824@0.0.1536.824" timestamp="1601186207766" />
+  </component>
+</project>

@@ -1,0 +1,89 @@
+package com.wanjia.infoshopmallmanage.service;
+
+import com.wanjia.infoshopmallmanage.entity.Permission;
+import com.wanjia.infoshopmallmanage.entity.Role;
+import com.wanjia.infoshopmallmanage.mapper.PermissionMapper;
+import com.wanjia.infoshopmallmanage.mapper.RoleMapper;
+import com.wanjia.infoshopmallmanage.mapper.RolePermissionMapper;
+import com.wanjia.infoshopmallmanage.util.RestResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @author: wlj
+ * @date: 2020/10/12 17:27
+ * @version: 1.0
+ */
+@Service
+public class PermissionService {
+    @Autowired
+    private RoleMapper roleMapper;
+    @Autowired
+    private PermissionMapper permissionMapper;
+    @Autowired
+    private RolePermissionMapper rolePermissionMapper;
+    /**
+     * 获取用户角色
+     * @param adminId
+     * @return
+     */
+    public Role findRoleByAdminId(Long adminId) {
+        return roleMapper.findRoleByAdminId(adminId);
+    }
+
+    /**
+     * 获取角色权限
+     * @param roleId
+     * @return
+     */
+    public List<Permission> findPermsByRoleId(Long roleId){
+        return permissionMapper.selectByRoleId(roleId);
+    }
+
+    /**
+     * 所有角色
+     * @return
+     */
+    public RestResponse roleAll(){
+        List<Role> list = roleMapper.selectAll();
+        return RestResponse.ok("查询成功",list);
+    }
+
+    /**
+     * 添加角色
+     * @param role
+     * @return
+     */
+    public RestResponse addRole(Role role) {
+        if(roleMapper.insert(role)>0){
+            //添加角色权限
+            if (!role.getPermissionIds().isEmpty()) {
+                rolePermissionMapper.insertPermission(role.getRoleId(), role.getPermissionIds());
+            }
+            return RestResponse.ok("添加成功");
+        }
+        return RestResponse.fail("添加失败");
+    }
+
+    /**
+     * 修改角色
+     * @param role
+     * @return
+     */
+    public RestResponse updateRole(Role role) {
+        //超级管理员不能修改
+        if(role.getRoleId()==1){
+            return RestResponse.fail("非法操作");
+        }
+        if(roleMapper.update(role)>0){
+            rolePermissionMapper.deleteByRoleId(role.getRoleId());
+            if(!role.getPermissionIds().isEmpty()){
+                rolePermissionMapper.insertPermission(role.getRoleId(), role.getPermissionIds());
+            }
+            return RestResponse.ok("修改成功");
+        }
+        return RestResponse.fail("修改失败");
+    }
+}

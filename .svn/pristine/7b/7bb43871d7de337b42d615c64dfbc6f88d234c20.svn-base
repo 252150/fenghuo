@@ -1,0 +1,70 @@
+package com.wanjia.infoshopmallmanage.entity;
+
+
+/**
+ * (GoodsSize)实体类
+ *
+ * @author: wlj
+ * @date: 2020-09-27 13:33:44
+ */
+public class GoodsSize {
+    
+    private Long id;
+    /**
+    * 商品id
+    */
+    private Long goodsId;
+    /**
+    * 商品属性id
+    */
+    private Long goodsPropertyId;
+    /**
+     * 属性名
+     */
+    private String GoodsPropertyName;
+    /**
+    * 商品属性值
+    */
+    private String goodsPropertyValue;
+
+        
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+        
+    public Long getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
+    }
+        
+    public Long getGoodsPropertyId() {
+        return goodsPropertyId;
+    }
+
+    public void setGoodsPropertyId(Long goodsPropertyId) {
+        this.goodsPropertyId = goodsPropertyId;
+    }
+        
+    public String getGoodsPropertyValue() {
+        return goodsPropertyValue;
+    }
+
+    public void setGoodsPropertyValue(String goodsPropertyValue) {
+        this.goodsPropertyValue = goodsPropertyValue;
+    }
+
+    public String getGoodsPropertyName() {
+        return GoodsPropertyName;
+    }
+
+    public void setGoodsPropertyName(String goodsPropertyName) {
+        GoodsPropertyName = goodsPropertyName;
+    }
+}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.MsgUserCommentMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.MsgUserComment" id="MsgUserCommentMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="msgCommentId" column="msg_comment_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MsgUserCommentMap">
+        select
+          id, msg_comment_id, user_id, create_time
+        from weathersystem.msg_user_comment
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="MsgUserCommentMap">
+        select
+          id, msg_comment_id, user_id, create_time
+        from weathersystem.msg_user_comment
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="MsgUserCommentMap">
+        select
+          id, msg_comment_id, user_id, create_time
+        from weathersystem.msg_user_comment
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="msgCommentId != null">
+                and msg_comment_id = #{msgCommentId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.msg_user_comment
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="msgCommentId != null">
+                msg_comment_id,
+            </if> 
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="msgCommentId != null">
+                #{msgCommentId},
+            </if>  
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.msg_user_comment
+        <set>
+            <if test="msgCommentId != null">
+                msg_comment_id = #{msgCommentId},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.msg_user_comment where id = #{id}
+    </delete>
+
+</mapper>

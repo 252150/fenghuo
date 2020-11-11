@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.ExpendDetailsMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.ExpendDetails" id="ExpendDetailsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="payWay" column="pay_way" jdbcType="INTEGER"/>
+        <result property="payTime" column="pay_time" jdbcType="TIMESTAMP"/>
+        <result property="payType" column="pay_type" jdbcType="INTEGER"/>
+        <result property="payMoney" column="pay_money" jdbcType="OTHER"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="orderNumber" column="order_number" jdbcType="VARCHAR"/>
+        <result property="payState" column="pay_state" jdbcType="INTEGER"/>
+        <result property="orderTitle" column="order_title" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ExpendDetailsMap">
+        select
+          id, user_id, pay_way, pay_time, pay_type, pay_money, remarks, order_number, pay_state, order_title
+        from weathersystem.expend_details
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ExpendDetailsMap">
+        select
+          id, user_id, pay_way, pay_time, pay_type, pay_money, remarks, order_number, pay_state, order_title
+        from weathersystem.expend_details
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ExpendDetailsMap">
+        select
+          id, user_id, pay_way, pay_time, pay_type, pay_money, remarks, order_number, pay_state, order_title
+        from weathersystem.expend_details
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="payWay != null">
+                and pay_way = #{payWay}
+            </if>
+            <if test="payTime != null">
+                and pay_time = #{payTime}
+            </if>
+            <if test="payType != null">
+                and pay_type = #{payType}
+            </if>
+            <if test="payMoney != null">
+                and pay_money = #{payMoney}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="orderNumber != null and orderNumber != ''">
+                and order_number = #{orderNumber}
+            </if>
+            <if test="payState != null">
+                and pay_state = #{payState}
+            </if>
+            <if test="orderTitle != null and orderTitle != ''">
+                and order_title = #{orderTitle}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.expend_details
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="payWay != null">
+                pay_way,
+            </if> 
+            <if test="payTime != null">
+                pay_time,
+            </if> 
+            <if test="payType != null">
+                pay_type,
+            </if> 
+            <if test="payMoney != null">
+                pay_money,
+            </if> 
+            <if test="remarks != null and remarks != ''">
+                remarks,
+            </if> 
+            <if test="orderNumber != null and orderNumber != ''">
+                order_number,
+            </if> 
+            <if test="payState != null">
+                pay_state,
+            </if> 
+            <if test="orderTitle != null and orderTitle != ''">
+                order_title,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="payWay != null">
+                #{payWay},
+            </if>  
+            <if test="payTime != null">
+                #{payTime},
+            </if>  
+            <if test="payType != null">
+                #{payType},
+            </if>  
+            <if test="payMoney != null">
+                #{payMoney},
+            </if>  
+            <if test="remarks != null and remarks != ''">
+                #{remarks},
+            </if>  
+            <if test="orderNumber != null and orderNumber != ''">
+                #{orderNumber},
+            </if>  
+            <if test="payState != null">
+                #{payState},
+            </if>  
+            <if test="orderTitle != null and orderTitle != ''">
+                #{orderTitle},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.expend_details
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="payWay != null">
+                pay_way = #{payWay},
+            </if>
+            <if test="payTime != null">
+                pay_time = #{payTime},
+            </if>
+            <if test="payType != null">
+                pay_type = #{payType},
+            </if>
+            <if test="payMoney != null">
+                pay_money = #{payMoney},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="orderNumber != null and orderNumber != ''">
+                order_number = #{orderNumber},
+            </if>
+            <if test="payState != null">
+                pay_state = #{payState},
+            </if>
+            <if test="orderTitle != null and orderTitle != ''">
+                order_title = #{orderTitle},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.expend_details where id = #{id}
+    </delete>
+
+</mapper>

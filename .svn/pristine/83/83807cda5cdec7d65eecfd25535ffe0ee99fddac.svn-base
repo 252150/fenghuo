@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.GoodsPropertyMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.GoodsProperty" id="GoodsPropertyMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="goodsId" column="goods_id" jdbcType="INTEGER"/>
+        <result property="goodsPropertyName" column="goods_property_name" jdbcType="VARCHAR"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="extendsMap" type="com.wanjia.infoshopmallmanage.entity.GoodsProperty" extends="GoodsPropertyMap">
+        <collection property="goodsSizes" ofType="com.wanjia.infoshopmallmanage.entity.GoodsSize">
+            <result property="id" column="goodsSizeId" jdbcType="INTEGER"/>
+            <result property="goodsId" column="goods_id" jdbcType="INTEGER"/>
+            <result property="goodsPropertyId" column="goods_property_id" jdbcType="INTEGER"/>
+            <result property="goodsPropertyName" column="goods_property_name" jdbcType="VARCHAR"/>
+            <result property="goodsPropertyValue" column="goods_property_value" jdbcType="VARCHAR"/>
+        </collection>
+
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GoodsPropertyMap">
+        select
+          id, goods_id, goods_property_name, remarks
+        from weathersystem.goods_property
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GoodsPropertyMap">
+        select
+          id, goods_id, goods_property_name, remarks
+        from weathersystem.goods_property
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GoodsPropertyMap">
+        select
+          id, goods_id, goods_property_name, remarks
+        from weathersystem.goods_property
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="goodsId != null">
+                and goods_id = #{goodsId}
+            </if>
+            <if test="goodsPropertyName != null and goodsPropertyName != ''">
+                and goods_property_name = #{goodsPropertyName}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+        </where>
+    </select>
+    <select id="selectByGoodsId" resultMap="extendsMap">
+        select a.*,b.id goodsSizeId,b.goods_property_value from goods_property a left join goods_size b on a.id = b.goods_property_id
+        where a.goods_id = #{goodsId}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.goods_property
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="goodsId != null">
+                goods_id,
+            </if> 
+            <if test="goodsPropertyName != null and goodsPropertyName != ''">
+                goods_property_name,
+            </if> 
+            <if test="remarks != null and remarks != ''">
+                remarks,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>  
+            <if test="goodsPropertyName != null and goodsPropertyName != ''">
+                #{goodsPropertyName},
+            </if>  
+            <if test="remarks != null and remarks != ''">
+                #{remarks},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.goods_property
+        <set>
+            <if test="goodsId != null">
+                goods_id = #{goodsId},
+            </if>
+            <if test="goodsPropertyName != null and goodsPropertyName != ''">
+                goods_property_name = #{goodsPropertyName},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.goods_property where id = #{id}
+    </delete>
+    <delete id="deleteByGoodsId">
+         delete from weathersystem.goods_property where goods_id = #{goodsId}
+    </delete>
+
+</mapper>

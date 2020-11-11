@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.MessTypeMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.MessType" id="MessTypeMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="messTypeName" column="mess_type_name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="uid" column="uid" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MessTypeMap">
+        select
+          id, pid, mess_type_name, create_time, icon, uid
+        from weathersystem.mess_type
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="MessTypeMap">
+        select
+          id, pid, mess_type_name, create_time, icon, uid
+        from weathersystem.mess_type
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="MessTypeMap">
+        select
+          id, pid, mess_type_name, create_time, icon, uid
+        from weathersystem.mess_type
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="messTypeName != null and messTypeName != ''">
+                and mess_type_name like CONCAT(CONCAT('%',#{messTypeName}),'%')
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="icon != null and icon != ''">
+                and icon = #{icon}
+            </if>
+            <if test="uid != null">
+                and uid = #{uid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.mess_type
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="pid != null">
+                pid,
+            </if> 
+            <if test="messTypeName != null and messTypeName != ''">
+                mess_type_name,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+            <if test="icon != null and icon != ''">
+                icon,
+            </if> 
+            <if test="uid != null">
+                uid,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="pid != null">
+                #{pid},
+            </if>  
+            <if test="messTypeName != null and messTypeName != ''">
+                #{messTypeName},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+            <if test="icon != null and icon != ''">
+                #{icon},
+            </if>  
+            <if test="uid != null">
+                #{uid},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.mess_type
+        <set>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="messTypeName != null and messTypeName != ''">
+                mess_type_name = #{messTypeName},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+            <if test="uid != null">
+                uid = #{uid},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.mess_type where id = #{id}
+    </delete>
+
+</mapper>

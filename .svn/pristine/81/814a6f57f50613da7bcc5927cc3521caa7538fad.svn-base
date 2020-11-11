@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.GroupMessageMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.GroupMessage" id="GroupMessageMap">
+        <result property="messageId" column="message_id" jdbcType="INTEGER"/>
+        <result property="groupId" column="group_id" jdbcType="INTEGER"/>
+        <result property="senderId" column="sender_id" jdbcType="INTEGER"/>
+        <result property="tdUserId" column="td_user_id" jdbcType="INTEGER"/>
+        <result property="messageType" column="message_type" jdbcType="INTEGER"/>
+        <result property="messageText" column="message_text" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GroupMessageMap">
+        select
+          message_id, group_id, sender_id, td_user_id, message_type, message_text, create_time
+        from weathersystem.group_message
+        where message_id = #{messageId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GroupMessageMap">
+        select
+          message_id, group_id, sender_id, td_user_id, message_type, message_text, create_time
+        from weathersystem.group_message
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GroupMessageMap">
+        select
+          message_id, group_id, sender_id, td_user_id, message_type, message_text, create_time
+        from weathersystem.group_message
+        <where>
+            <if test="messageId != null">
+                and message_id = #{messageId}
+            </if>
+            <if test="groupId != null">
+                and group_id = #{groupId}
+            </if>
+            <if test="senderId != null">
+                and sender_id = #{senderId}
+            </if>
+            <if test="tdUserId != null">
+                and td_user_id = #{tdUserId}
+            </if>
+            <if test="messageType != null">
+                and message_type = #{messageType}
+            </if>
+            <if test="messageText != null and messageText != ''">
+                and message_text = #{messageText}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="messageId" useGeneratedKeys="true">
+        insert into weathersystem.group_message
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="groupId != null">
+                group_id,
+            </if> 
+            <if test="senderId != null">
+                sender_id,
+            </if> 
+            <if test="tdUserId != null">
+                td_user_id,
+            </if> 
+            <if test="messageType != null">
+                message_type,
+            </if> 
+            <if test="messageText != null and messageText != ''">
+                message_text,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="groupId != null">
+                #{groupId},
+            </if>  
+            <if test="senderId != null">
+                #{senderId},
+            </if>  
+            <if test="tdUserId != null">
+                #{tdUserId},
+            </if>  
+            <if test="messageType != null">
+                #{messageType},
+            </if>  
+            <if test="messageText != null and messageText != ''">
+                #{messageText},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.group_message
+        <set>
+            <if test="groupId != null">
+                group_id = #{groupId},
+            </if>
+            <if test="senderId != null">
+                sender_id = #{senderId},
+            </if>
+            <if test="tdUserId != null">
+                td_user_id = #{tdUserId},
+            </if>
+            <if test="messageType != null">
+                message_type = #{messageType},
+            </if>
+            <if test="messageText != null and messageText != ''">
+                message_text = #{messageText},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where message_id = #{messageId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.group_message where message_id = #{messageId}
+    </delete>
+
+</mapper>

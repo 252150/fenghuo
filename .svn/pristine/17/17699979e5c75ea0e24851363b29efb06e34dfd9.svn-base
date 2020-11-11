@@ -1,0 +1,50 @@
+package com.wanjia.infoshopmallmanage.controller;
+
+import com.wanjia.infoshopmallmanage.entity.Role;
+import com.wanjia.infoshopmallmanage.service.PermissionService;
+import com.wanjia.infoshopmallmanage.util.AuthJwtUtil;
+import com.wanjia.infoshopmallmanage.util.RestResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * @author: wlj
+ * @date: 2020/10/16 13:58
+ * @version: 1.0
+ */
+@RestController
+@RequestMapping("/permission")
+public class PermissionController {
+    @Resource
+    private PermissionService permissionService;
+    @Autowired
+    private HttpServletRequest request;
+    /**
+     * 所有角色
+     * @return
+     */
+    @GetMapping("/roleAll")
+    public RestResponse roleAll(){
+        return permissionService.roleAll();
+    }
+
+    /**
+     * 添加角色
+     * @param role
+     * @return
+     */
+    @PostMapping("/addRole")
+    public RestResponse addRole(Role role){
+        String token = request.getHeader("Authorization");
+        Long adminId = AuthJwtUtil.getClaims(token).get("adminId").asLong();
+        role.setCreateAdminId(adminId);
+        return permissionService.addRole(role);
+    }
+
+}

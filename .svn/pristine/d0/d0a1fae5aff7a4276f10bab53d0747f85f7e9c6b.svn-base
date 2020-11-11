@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.RoleMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.Role" id="RoleMap">
+        <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createAdminId" column="create_admin_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RoleMap">
+        select
+          role_id, role_name, description, status, create_time, update_time, create_admin_id
+        from weathersystem.role
+        where role_id = #{roleId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RoleMap">
+        select
+          role_id, role_name, description, status, create_time, update_time, create_admin_id
+        from weathersystem.role
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="RoleMap">
+        select
+          role_id, role_name, description, status, create_time, update_time, create_admin_id
+        from weathersystem.role
+        <where>
+            <if test="roleId != null">
+                and role_id = #{roleId}
+            </if>
+            <if test="roleName != null and roleName != ''">
+                and role_name = #{roleName}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="createAdminId != null">
+                and create_admin_id = #{createAdminId}
+            </if>
+        </where>
+    </select>
+    <select id="findRoleByAdminId" resultMap="RoleMap">
+        select
+        a.*
+        from role a left join admin_role b on a.role_id = b.role_id
+        where b.admin_id = #{adminId} and a.status = 1
+    </select>
+    <select id="selectAll" resultMap="RoleMap">
+        select * from role
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="roleId" useGeneratedKeys="true">
+        insert into weathersystem.role
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="roleName != null and roleName != ''">
+                role_name,
+            </if> 
+            <if test="description != null and description != ''">
+                description,
+            </if> 
+            <if test="status != null">
+                status,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+            <if test="updateTime != null">
+                update_time,
+            </if> 
+            <if test="createAdminId != null">
+                create_admin_id,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="roleName != null and roleName != ''">
+                #{roleName},
+            </if>  
+            <if test="description != null and description != ''">
+                #{description},
+            </if>  
+            <if test="status != null">
+                #{status},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>  
+            <if test="createAdminId != null">
+                #{createAdminId},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.role
+        <set>
+            <if test="roleName != null and roleName != ''">
+                role_name = #{roleName},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="createAdminId != null">
+                create_admin_id = #{createAdminId},
+            </if>
+        </set>
+        where role_id = #{roleId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.role where role_id = #{roleId}
+    </delete>
+
+
+
+</mapper>

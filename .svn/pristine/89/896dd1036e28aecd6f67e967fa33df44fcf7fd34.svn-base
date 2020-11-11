@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.LogisticsCompanyMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.LogisticsCompany" id="LogisticsCompanyMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="expressName" column="express_name" jdbcType="VARCHAR"/>
+        <result property="expressCode" column="express_code" jdbcType="VARCHAR"/>
+        <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="LogisticsCompanyMap">
+        select
+          id, express_name, express_code, order_num, status
+        from weathersystem.logistics_company
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="LogisticsCompanyMap">
+        select
+          id, express_name, express_code, order_num, status
+        from weathersystem.logistics_company
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="conditionQuery" resultMap="LogisticsCompanyMap">
+        select
+          id, express_name, express_code, order_num, status
+        from weathersystem.logistics_company
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="expressName != null and expressName != ''">
+                and express_name = #{expressName}
+            </if>
+            <if test="expressCode != null and expressCode != ''">
+                and express_code = #{expressCode}
+            </if>
+            <if test="orderNum != null">
+                and order_num = #{orderNum}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order_num desc
+    </select>
+    <select id="selectByCode" resultMap="LogisticsCompanyMap">
+        select * from weathersystem.logistics_company where express_code = #{code}
+    </select>
+    <select id="selectAll" resultMap="LogisticsCompanyMap">
+        select * from weathersystem.logistics_company where status = 1 order by order_num desc
+    </select>
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.logistics_company
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="expressName != null and expressName != ''">
+                express_name,
+            </if> 
+            <if test="expressCode != null and expressCode != ''">
+                express_code,
+            </if> 
+            <if test="orderNum != null">
+                order_num,
+            </if> 
+            <if test="status != null">
+                status,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="expressName != null and expressName != ''">
+                #{expressName},
+            </if>  
+            <if test="expressCode != null and expressCode != ''">
+                #{expressCode},
+            </if>  
+            <if test="orderNum != null">
+                #{orderNum},
+            </if>  
+            <if test="status != null">
+                #{status},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.logistics_company
+        <set>
+            <if test="expressName != null and expressName != ''">
+                express_name = #{expressName},
+            </if>
+            <if test="expressCode != null and expressCode != ''">
+                express_code = #{expressCode},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.logistics_company where id = #{id}
+    </delete>
+
+</mapper>

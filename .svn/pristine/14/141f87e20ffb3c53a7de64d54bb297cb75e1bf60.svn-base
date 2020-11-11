@@ -1,0 +1,36 @@
+package com.wanjia.infoshopmallmanage.util;
+
+public class FileUtil {
+	  /**
+	  * 判断文件是否为图片<br>
+	  * <br>
+	  * @param pInput 文件名<br>
+	  * @param pImgeFlag 判断具体文件类型<br>
+	  * @return 检查后的结果<br>
+	  * @throws Exception
+	  */
+	 public static boolean isPicture(String  pInput
+	                           ) throws Exception{
+
+	  // 获得文件后缀名
+	  String tmpName = pInput.substring(pInput.lastIndexOf(".") + 1,
+	                              pInput.length());
+	  // 声明图片后缀名数组
+	  String imgeArray [] = {
+	    "bmp", "dib",  "gif",
+	    "jfif", "jpe","jpeg",
+	    "jpg", "png","tif",
+	    "tiff", "ico"
+	  };
+	  // 遍历名称数组
+	  for(int i = 0; i<imgeArray.length;i++){
+	   // 判断单个类型文件的场合
+	   if( imgeArray [i].equals(tmpName)){
+	    return true;
+	   }
+
+	  }
+	  return false;
+	 }
+
+}

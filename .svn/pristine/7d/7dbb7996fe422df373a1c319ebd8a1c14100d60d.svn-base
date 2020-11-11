@@ -1,0 +1,6 @@
+package com.wanjia.infoshopmallmanage.validated;
+
+public class Groups {
+    public interface Update{}
+    public interface Insert{}
+}

@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.GoodsMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.Goods" id="GoodsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="merId" column="mer_id" jdbcType="INTEGER"/>
+        <result property="recommendImage" column="recommend_image" jdbcType="VARCHAR"/>
+        <result property="rotationImages" column="rotation_images" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="goodsIntroduce" column="goods_introduce" jdbcType="VARCHAR"/>
+        <result property="goodsDescription" column="goods_description" jdbcType="VARCHAR"/>
+        <result property="goodsKeyword" column="goods_keyword" jdbcType="VARCHAR"/>
+        <result property="goodsSortId" column="goods_sort_id" jdbcType="INTEGER"/>
+        <result property="goodsPrice" column="goods_price" jdbcType="OTHER"/>
+        <result property="goodsVipPrice" column="goods_vip_price" jdbcType="OTHER"/>
+        <result property="marketPrice" column="market_price" jdbcType="OTHER"/>
+        <result property="unitName" column="unit_name" jdbcType="VARCHAR"/>
+        <result property="activityTitle" column="activity_title" jdbcType="VARCHAR"/>
+        <result property="activityProperty" column="activity_property" jdbcType="VARCHAR"/>
+        <result property="joinTeamPeopleNum" column="join_team_people_num" jdbcType="INTEGER"/>
+        <result property="goodsSort" column="goods_sort" jdbcType="INTEGER"/>
+        <result property="goodsSaleNum" column="goods_sale_num" jdbcType="INTEGER"/>
+        <result property="goodsStock" column="goods_stock" jdbcType="INTEGER"/>
+        <result property="addTime" column="add_time" jdbcType="TIMESTAMP"/>
+        <result property="goodsStatus" column="goods_status" jdbcType="INTEGER"/>
+        <result property="isHot" column="is_hot" jdbcType="INTEGER"/>
+        <result property="isDiscount" column="is_discount" jdbcType="INTEGER"/>
+        <result property="isBest" column="is_best" jdbcType="INTEGER"/>
+        <result property="isNew" column="is_new" jdbcType="INTEGER"/>
+        <result property="emailFree" column="email_free" jdbcType="INTEGER"/>
+        <result property="isDelete" column="is_delete" jdbcType="OTHER"/>
+        <result property="merUse" column="mer_use" jdbcType="INTEGER"/>
+        <result property="giveIntegral" column="give_integral" jdbcType="INTEGER"/>
+        <result property="costPrice" column="cost_price" jdbcType="OTHER"/>
+        <result property="emailPrice" column="email_price" jdbcType="OTHER"/>
+        <result property="isSeckill" column="is_seckill" jdbcType="INTEGER"/>
+        <result property="isBargain" column="is_bargain" jdbcType="INTEGER"/>
+        <result property="fictitiousSaleNum" column="fictitious_sale_num" jdbcType="INTEGER"/>
+        <result property="goodsQrcodePath" column="goods_qrcode_path" jdbcType="VARCHAR"/>
+        <result property="browserNum" column="browser_num" jdbcType="INTEGER"/>
+        <result property="collectionNum" column="collection_num" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GoodsMap">
+        select
+          id, mer_id, recommend_image, rotation_images, goods_name, goods_introduce, goods_description, goods_keyword, goods_sort_id, goods_price, goods_vip_price, market_price, unit_name, activity_title, activity_property, join_team_people_num, goods_sort, goods_sale_num, goods_stock, add_time, goods_status, is_hot, is_discount, is_best, is_new, email_free, is_delete, mer_use, give_integral, cost_price, email_price, is_seckill, is_bargain, fictitious_sale_num, goods_qrcode_path, browser_num, collection_num
+        from weathersystem.goods
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GoodsMap">
+        select
+          id, mer_id, recommend_image, rotation_images, goods_name, goods_introduce, goods_description, goods_keyword, goods_sort_id, goods_price, goods_vip_price, market_price, unit_name, activity_title, activity_property, join_team_people_num, goods_sort, goods_sale_num, goods_stock, add_time, goods_status, is_hot, is_discount, is_best, is_new, email_free, is_delete, mer_use, give_integral, cost_price, email_price, is_seckill, is_bargain, fictitious_sale_num, goods_qrcode_path, browser_num, collection_num
+        from weathersystem.goods
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GoodsMap">
+        select
+          id, mer_id, recommend_image, rotation_images, goods_name, goods_introduce, goods_description, goods_keyword, goods_sort_id, goods_price, goods_vip_price, market_price, unit_name, activity_title, activity_property, join_team_people_num, goods_sort, goods_sale_num, goods_stock, add_time, goods_status, is_hot, is_discount, is_best, is_new, email_free, is_delete, mer_use, give_integral, cost_price, email_price, is_seckill, is_bargain, fictitious_sale_num, goods_qrcode_path, browser_num, collection_num
+        from weathersystem.goods
+        <where>
+            is_delete = 1
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="merId != null">
+                and mer_id = #{merId}
+            </if>
+            <if test="goodsSortId != null">
+                and goods_sort_id in (
+                SELECT id  FROM (
+                SELECT t1.*,
+                IF(FIND_IN_SET(pid, @pids) > 0, @pids := CONCAT(@pids, ',', id), '0') AS ischild
+                FROM (
+                SELECT * FROM goods_sort AS t  ORDER BY t.id ASC
+                ) t1,
+                (SELECT @pids := #{goodsSortId}) t2
+                ) t3 WHERE ischild != '0' or id = #{goodsSortId})
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                and (goods_name like CONCAT('%',#{goodsName},'%')  or goods_keyword like CONCAT('%',#{goodsName},'%'))
+            </if>
+            <if test="recommendImage != null and recommendImage != ''">
+                and recommend_image = #{recommendImage}
+            </if>
+            <if test="rotationImages != null and rotationImages != ''">
+                and rotation_images = #{rotationImages}
+            </if>
+            <if test="goodsIntroduce != null and goodsIntroduce != ''">
+                and goods_introduce = #{goodsIntroduce}
+            </if>
+            <if test="goodsDescription != null and goodsDescription != ''">
+                and goods_description = #{goodsDescription}
+            </if>
+            <if test="goodsKeyword != null and goodsKeyword != ''">
+                and goods_keyword = #{goodsKeyword}
+            </if>
+            <if test="goodsPrice != null">
+                and goods_price = #{goodsPrice}
+            </if>
+            <if test="goodsVipPrice != null">
+                and goods_vip_price = #{goodsVipPrice}
+            </if>
+            <if test="marketPrice != null">
+                and market_price = #{marketPrice}
+            </if>
+            <if test="unitName != null and unitName != ''">
+                and unit_name = #{unitName}
+            </if>
+            <if test="activityTitle != null and activityTitle != ''">
+                and activity_title = #{activityTitle}
+            </if>
+            <if test="activityProperty != null and activityProperty != ''">
+                and activity_property = #{activityProperty}
+            </if>
+            <if test="joinTeamPeopleNum != null">
+                and join_team_people_num = #{joinTeamPeopleNum}
+            </if>
+            <if test="goodsSort != null">
+                and goods_sort = #{goodsSort}
+            </if>
+            <if test="goodsSaleNum != null">
+                and goods_sale_num = #{goodsSaleNum}
+            </if>
+            <if test="goodsStock != null">
+                and goods_stock = #{goodsStock}
+            </if>
+            <if test="addTime != null">
+                and add_time = #{addTime}
+            </if>
+            <if test="goodsStatus != null">
+                and goods_status = #{goodsStatus}
+            </if>
+            <if test="isHot != null">
+                and is_hot = #{isHot}
+            </if>
+            <if test="isDiscount != null">
+                and is_discount = #{isDiscount}
+            </if>
+            <if test="isBest != null">
+                and is_best = #{isBest}
+            </if>
+            <if test="isNew != null">
+                and is_new = #{isNew}
+            </if>
+            <if test="emailFree != null">
+                and email_free = #{emailFree}
+            </if>
+            <if test="merUse != null">
+                and mer_use = #{merUse}
+            </if>
+            <if test="giveIntegral != null">
+                and give_integral = #{giveIntegral}
+            </if>
+            <if test="costPrice != null">
+                and cost_price = #{costPrice}
+            </if>
+            <if test="emailPrice != null">
+                and email_price = #{emailPrice}
+            </if>
+            <if test="isSeckill != null">
+                and is_seckill = #{isSeckill}
+            </if>
+            <if test="isBargain != null">
+                and is_bargain = #{isBargain}
+            </if>
+            <if test="fictitiousSaleNum != null">
+                and fictitious_sale_num = #{fictitiousSaleNum}
+            </if>
+            <if test="goodsQrcodePath != null and goodsQrcodePath != ''">
+                and goods_qrcode_path = #{goodsQrcodePath}
+            </if>
+            <if test="browserNum != null">
+                and browser_num = #{browserNum}
+            </if>
+            <if test="collectionNum != null">
+                and collection_num = #{collectionNum}
+            </if>
+            <if test="sortField != null and orderingRule != null">
+                order by #{sortField} #{orderingRule}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.goods
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="merId != null">
+                mer_id,
+            </if> 
+            <if test="recommendImage != null and recommendImage != ''">
+                recommend_image,
+            </if> 
+            <if test="rotationImages != null and rotationImages != ''">
+                rotation_images,
+            </if> 
+            <if test="goodsName != null and goodsName != ''">
+                goods_name,
+            </if> 
+            <if test="goodsIntroduce != null and goodsIntroduce != ''">
+                goods_introduce,
+            </if> 
+            <if test="goodsDescription != null and goodsDescription != ''">
+                goods_description,
+            </if> 
+            <if test="goodsKeyword != null and goodsKeyword != ''">
+                goods_keyword,
+            </if> 
+            <if test="goodsSortId != null">
+                goods_sort_id,
+            </if> 
+            <if test="goodsPrice != null">
+                goods_price,
+            </if> 
+            <if test="goodsVipPrice != null">
+                goods_vip_price,
+            </if> 
+            <if test="marketPrice != null">
+                market_price,
+            </if> 
+            <if test="unitName != null and unitName != ''">
+                unit_name,
+            </if> 
+            <if test="activityTitle != null and activityTitle != ''">
+                activity_title,
+            </if> 
+            <if test="activityProperty != null and activityProperty != ''">
+                activity_property,
+            </if> 
+            <if test="joinTeamPeopleNum != null">
+                join_team_people_num,
+            </if> 
+            <if test="goodsSort != null">
+                goods_sort,
+            </if> 
+            <if test="goodsSaleNum != null">
+                goods_sale_num,
+            </if> 
+            <if test="goodsStock != null">
+                goods_stock,
+            </if> 
+            <if test="addTime != null">
+                add_time,
+            </if> 
+            <if test="goodsStatus != null">
+                goods_status,
+            </if> 
+            <if test="isHot != null">
+                is_hot,
+            </if> 
+            <if test="isDiscount != null">
+                is_discount,
+            </if> 
+            <if test="isBest != null">
+                is_best,
+            </if> 
+            <if test="isNew != null">
+                is_new,
+            </if> 
+            <if test="emailFree != null">
+                email_free,
+            </if> 
+            <if test="isDelete != null">
+                is_delete,
+            </if> 
+            <if test="merUse != null">
+                mer_use,
+            </if> 
+            <if test="giveIntegral != null">
+                give_integral,
+            </if> 
+            <if test="costPrice != null">
+                cost_price,
+            </if> 
+            <if test="emailPrice != null">
+                email_price,
+            </if> 
+            <if test="isSeckill != null">
+                is_seckill,
+            </if> 
+            <if test="isBargain != null">
+                is_bargain,
+            </if> 
+            <if test="fictitiousSaleNum != null">
+                fictitious_sale_num,
+            </if> 
+            <if test="goodsQrcodePath != null and goodsQrcodePath != ''">
+                goods_qrcode_path,
+            </if> 
+            <if test="browserNum != null">
+                browser_num,
+            </if> 
+            <if test="collectionNum != null">
+                collection_num,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="merId != null">
+                #{merId},
+            </if>  
+            <if test="recommendImage != null and recommendImage != ''">
+                #{recommendImage},
+            </if>  
+            <if test="rotationImages != null and rotationImages != ''">
+                #{rotationImages},
+            </if>  
+            <if test="goodsName != null and goodsName != ''">
+                #{goodsName},
+            </if>  
+            <if test="goodsIntroduce != null and goodsIntroduce != ''">
+                #{goodsIntroduce},
+            </if>  
+            <if test="goodsDescription != null and goodsDescription != ''">
+                #{goodsDescription},
+            </if>  
+            <if test="goodsKeyword != null and goodsKeyword != ''">
+                #{goodsKeyword},
+            </if>  
+            <if test="goodsSortId != null">
+                #{goodsSortId},
+            </if>  
+            <if test="goodsPrice != null">
+                #{goodsPrice},
+            </if>  
+            <if test="goodsVipPrice != null">
+                #{goodsVipPrice},
+            </if>  
+            <if test="marketPrice != null">
+                #{marketPrice},
+            </if>  
+            <if test="unitName != null and unitName != ''">
+                #{unitName},
+            </if>  
+            <if test="activityTitle != null and activityTitle != ''">
+                #{activityTitle},
+            </if>  
+            <if test="activityProperty != null and activityProperty != ''">
+                #{activityProperty},
+            </if>  
+            <if test="joinTeamPeopleNum != null">
+                #{joinTeamPeopleNum},
+            </if>  
+            <if test="goodsSort != null">
+                #{goodsSort},
+            </if>  
+            <if test="goodsSaleNum != null">
+                #{goodsSaleNum},
+            </if>  
+            <if test="goodsStock != null">
+                #{goodsStock},
+            </if>  
+            <if test="addTime != null">
+                #{addTime},
+            </if>  
+            <if test="goodsStatus != null">
+                #{goodsStatus},
+            </if>  
+            <if test="isHot != null">
+                #{isHot},
+            </if>  
+            <if test="isDiscount != null">
+                #{isDiscount},
+            </if>  
+            <if test="isBest != null">
+                #{isBest},
+            </if>  
+            <if test="isNew != null">
+                #{isNew},
+            </if>  
+            <if test="emailFree != null">
+                #{emailFree},
+            </if>  
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>  
+            <if test="merUse != null">
+                #{merUse},
+            </if>  
+            <if test="giveIntegral != null">
+                #{giveIntegral},
+            </if>  
+            <if test="costPrice != null">
+                #{costPrice},
+            </if>  
+            <if test="emailPrice != null">
+                #{emailPrice},
+            </if>  
+            <if test="isSeckill != null">
+                #{isSeckill},
+            </if>  
+            <if test="isBargain != null">
+                #{isBargain},
+            </if>  
+            <if test="fictitiousSaleNum != null">
+                #{fictitiousSaleNum},
+            </if>  
+            <if test="goodsQrcodePath != null and goodsQrcodePath != ''">
+                #{goodsQrcodePath},
+            </if>  
+            <if test="browserNum != null">
+                #{browserNum},
+            </if>  
+            <if test="collectionNum != null">
+                #{collectionNum},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.goods
+        <set>
+            <if test="merId != null">
+                mer_id = #{merId},
+            </if>
+            <if test="recommendImage != null and recommendImage != ''">
+                recommend_image = #{recommendImage},
+            </if>
+            <if test="rotationImages != null and rotationImages != ''">
+                rotation_images = #{rotationImages},
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                goods_name = #{goodsName},
+            </if>
+            <if test="goodsIntroduce != null and goodsIntroduce != ''">
+                goods_introduce = #{goodsIntroduce},
+            </if>
+            <if test="goodsDescription != null and goodsDescription != ''">
+                goods_description = #{goodsDescription},
+            </if>
+            <if test="goodsKeyword != null and goodsKeyword != ''">
+                goods_keyword = #{goodsKeyword},
+            </if>
+            <if test="goodsSortId != null">
+                goods_sort_id = #{goodsSortId},
+            </if>
+            <if test="goodsPrice != null">
+                goods_price = #{goodsPrice},
+            </if>
+            <if test="goodsVipPrice != null">
+                goods_vip_price = #{goodsVipPrice},
+            </if>
+            <if test="marketPrice != null">
+                market_price = #{marketPrice},
+            </if>
+            <if test="unitName != null and unitName != ''">
+                unit_name = #{unitName},
+            </if>
+            <if test="activityTitle != null and activityTitle != ''">
+                activity_title = #{activityTitle},
+            </if>
+            <if test="activityProperty != null and activityProperty != ''">
+                activity_property = #{activityProperty},
+            </if>
+            <if test="joinTeamPeopleNum != null">
+                join_team_people_num = #{joinTeamPeopleNum},
+            </if>
+            <if test="goodsSort != null">
+                goods_sort = #{goodsSort},
+            </if>
+            <if test="goodsSaleNum != null">
+                goods_sale_num = #{goodsSaleNum},
+            </if>
+            <if test="goodsStock != null">
+                goods_stock = #{goodsStock},
+            </if>
+            <if test="addTime != null">
+                add_time = #{addTime},
+            </if>
+            <if test="goodsStatus != null">
+                goods_status = #{goodsStatus},
+            </if>
+            <if test="isHot != null">
+                is_hot = #{isHot},
+            </if>
+            <if test="isDiscount != null">
+                is_discount = #{isDiscount},
+            </if>
+            <if test="isBest != null">
+                is_best = #{isBest},
+            </if>
+            <if test="isNew != null">
+                is_new = #{isNew},
+            </if>
+            <if test="emailFree != null">
+                email_free = #{emailFree},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+            <if test="merUse != null">
+                mer_use = #{merUse},
+            </if>
+            <if test="giveIntegral != null">
+                give_integral = #{giveIntegral},
+            </if>
+            <if test="costPrice != null">
+                cost_price = #{costPrice},
+            </if>
+            <if test="emailPrice != null">
+                email_price = #{emailPrice},
+            </if>
+            <if test="isSeckill != null">
+                is_seckill = #{isSeckill},
+            </if>
+            <if test="isBargain != null">
+                is_bargain = #{isBargain},
+            </if>
+            <if test="fictitiousSaleNum != null">
+                fictitious_sale_num = #{fictitiousSaleNum},
+            </if>
+            <if test="goodsQrcodePath != null and goodsQrcodePath != ''">
+                goods_qrcode_path = #{goodsQrcodePath},
+            </if>
+            <if test="browserNum != null">
+                browser_num = #{browserNum},
+            </if>
+            <if test="collectionNum != null">
+                collection_num = #{collectionNum},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateMinPrice">
+        update weathersystem.goods set
+        goods_price = (select min(goods_property_price) from goods_price where goods_id = #{goodsId}),
+        goods_stock = (select sum(goods_property_stock) from goods_price where goods_id = #{goodsId})
+        where id = #{goodsId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.goods where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.ScoreLogMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.ScoreLog" id="ScoreLogMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="scoreLogType" column="score_log_type" jdbcType="INTEGER"/>
+        <result property="scoreNum" column="score_num" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="scoreSource" column="score_source" jdbcType="INTEGER"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ScoreLogMap">
+        select
+          id, user_id, score_log_type, score_num, create_time, score_source, remarks
+        from weathersystem.score_log
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ScoreLogMap">
+        select
+          id, user_id, score_log_type, score_num, create_time, score_source, remarks
+        from weathersystem.score_log
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ScoreLogMap">
+        select
+          id, user_id, score_log_type, score_num, create_time, score_source, remarks
+        from weathersystem.score_log
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="scoreLogType != null">
+                and score_log_type = #{scoreLogType}
+            </if>
+            <if test="scoreNum != null">
+                and score_num = #{scoreNum}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="scoreSource != null">
+                and score_source = #{scoreSource}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.score_log
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="scoreLogType != null">
+                score_log_type,
+            </if> 
+            <if test="scoreNum != null">
+                score_num,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+            <if test="scoreSource != null">
+                score_source,
+            </if> 
+            <if test="remarks != null and remarks != ''">
+                remarks,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="scoreLogType != null">
+                #{scoreLogType},
+            </if>  
+            <if test="scoreNum != null">
+                #{scoreNum},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+            <if test="scoreSource != null">
+                #{scoreSource},
+            </if>  
+            <if test="remarks != null and remarks != ''">
+                #{remarks},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.score_log
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="scoreLogType != null">
+                score_log_type = #{scoreLogType},
+            </if>
+            <if test="scoreNum != null">
+                score_num = #{scoreNum},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="scoreSource != null">
+                score_source = #{scoreSource},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.score_log where id = #{id}
+    </delete>
+
+</mapper>

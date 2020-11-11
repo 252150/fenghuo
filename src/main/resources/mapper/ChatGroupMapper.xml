@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.ChatGroupMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.ChatGroup" id="ChatGroupMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="groupName" column="group_name" jdbcType="VARCHAR"/>
+        <result property="groupOwner" column="group_owner" jdbcType="INTEGER"/>
+        <result property="creatorId" column="creator_id" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="groupAnnouncement" column="group_announcement" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ChatGroupMap">
+        select
+          id, group_name, group_owner, creator_id, status, group_announcement, create_time
+        from weathersystem.chat_group
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ChatGroupMap">
+        select
+          id, group_name, group_owner, creator_id, status, group_announcement, create_time
+        from weathersystem.chat_group
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ChatGroupMap">
+        select
+          id, group_name, group_owner, creator_id, status, group_announcement, create_time
+        from weathersystem.chat_group
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="groupName != null and groupName != ''">
+                and group_name = #{groupName}
+            </if>
+            <if test="groupOwner != null">
+                and group_owner = #{groupOwner}
+            </if>
+            <if test="creatorId != null">
+                and creator_id = #{creatorId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="groupAnnouncement != null and groupAnnouncement != ''">
+                and group_announcement = #{groupAnnouncement}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.chat_group
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="groupName != null and groupName != ''">
+                group_name,
+            </if> 
+            <if test="groupOwner != null">
+                group_owner,
+            </if> 
+            <if test="creatorId != null">
+                creator_id,
+            </if> 
+            <if test="status != null">
+                status,
+            </if> 
+            <if test="groupAnnouncement != null and groupAnnouncement != ''">
+                group_announcement,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="groupName != null and groupName != ''">
+                #{groupName},
+            </if>  
+            <if test="groupOwner != null">
+                #{groupOwner},
+            </if>  
+            <if test="creatorId != null">
+                #{creatorId},
+            </if>  
+            <if test="status != null">
+                #{status},
+            </if>  
+            <if test="groupAnnouncement != null and groupAnnouncement != ''">
+                #{groupAnnouncement},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.chat_group
+        <set>
+            <if test="groupName != null and groupName != ''">
+                group_name = #{groupName},
+            </if>
+            <if test="groupOwner != null">
+                group_owner = #{groupOwner},
+            </if>
+            <if test="creatorId != null">
+                creator_id = #{creatorId},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="groupAnnouncement != null and groupAnnouncement != ''">
+                group_announcement = #{groupAnnouncement},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.chat_group where id = #{id}
+    </delete>
+
+</mapper>

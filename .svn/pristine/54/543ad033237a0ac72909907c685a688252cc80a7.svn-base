@@ -1,0 +1,58 @@
+package com.wanjia.infoshopmallmanage.util;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.util.DigestUtils;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.LinkedHashMap;
+
+/*
+ * 短信验证码发送工具类
+ */
+
+public class SmsUtil 
+{
+	//valid_code:随机生成的6位数字验证码
+	public static boolean sendSmsTp(String phone,int valid_code) {
+        //地址
+        String urls = "https://api.mix2.zthysms.com/v2/sendSmsTp";
+        //请求入参
+        JSONObject requestJson = new JSONObject(new LinkedHashMap<String, Object>());
+        //账号
+        requestJson.put("username","TestUser007");
+        //tKey
+        long tKey = System.currentTimeMillis() / 1000;
+        //明文密码
+        requestJson.put("password", DigestUtils.md5DigestAsHex((DigestUtils.md5DigestAsHex("123456".getBytes()) + tKey).getBytes()));
+        requestJson.put("tKey", tKey);
+        //模板ID
+        requestJson.put("tpId", 22560);
+        //签名
+        requestJson.put("signature", "【万佳】");
+        //扩展号
+        requestJson.put("ext","");
+        //自定义参数
+        requestJson.put("extend","");
+        //发送记录集合
+        JSONArray records = new JSONArray();
+        JSONObject record = new JSONObject();
+        //手机号
+        record.put("mobile", phone);
+        //替换变量
+        JSONObject param = new JSONObject();
+        param.put("valid_code", valid_code);
+        record.put("tpContent", param);
+        records.add(record);
+        requestJson.put("records", records);
+        RestTemplate client = new RestTemplate();
+        //调用第三方短信平台接口发验证码短信
+	    JSONObject result = client.postForEntity(urls,requestJson,JSONObject.class).getBody();
+	    //返回短信验证码的发送结果
+	    if((int) result.get("code")!=200)
+	    {
+	    	return false;
+	    }
+	    return true;
+	}
+}

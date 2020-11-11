@@ -1,0 +1,45 @@
+package com.wanjia.infoshopmallmanage.service;
+
+import com.wanjia.infoshopmallmanage.entity.Order;
+import com.wanjia.infoshopmallmanage.mapper.OrderMapper;
+import com.wanjia.infoshopmallmanage.util.RestResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @author: wlj
+ * @date: 2020/10/9 15:43
+ * @version: 1.0
+ */
+@Slf4j
+@Service
+public class OrderGoodsService {
+    @Autowired
+    private OrderMapper orderMapper;
+    /**
+     * 查询订单
+     * @param order
+     * @return
+     */
+    public RestResponse queryOrder(Order order){
+        List<Order> list = orderMapper.queryAll(order);
+        return RestResponse.ok("查询成功",list);
+    }
+
+    /**
+     * 订单发货
+     * @param order
+     * @return
+     */
+    public RestResponse deliverGoods(Order order) {
+        //订单状态改为已发货
+        order.setOrderState(1);
+        if(orderMapper.update(order)>0){
+            return RestResponse.ok("发货成功");
+        }
+        return RestResponse.fail("发货失败");
+    }
+}

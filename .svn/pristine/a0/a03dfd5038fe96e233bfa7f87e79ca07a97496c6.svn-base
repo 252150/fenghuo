@@ -1,0 +1,29 @@
+package com.wanjia.infoshopmallmanage.config;
+
+import java.io.File;
+
+import javax.servlet.MultipartConfigElement;
+
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.util.unit.DataSize;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+@Configuration
+public class FieConfig {
+	 @Bean
+	    public MultipartConfigElement multipartConfigElement() {
+	        MultipartConfigFactory factory = new MultipartConfigFactory();
+	        
+	        factory.setMaxFileSize(DataSize.ofBytes(102400000000l));
+	        factory.setMaxRequestSize(DataSize.ofBytes(102400000000l));
+	        return factory.createMultipartConfig();
+	    }
+
+	   @Bean
+	    public CommonsMultipartResolver multipartResolver() {
+	        return new CommonsMultipartResolver();
+	    }
+
+}

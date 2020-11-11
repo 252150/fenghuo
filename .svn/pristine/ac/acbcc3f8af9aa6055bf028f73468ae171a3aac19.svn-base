@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.OrderMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.Order" id="OrderMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderName" column="order_name" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="userPhone" column="user_phone" jdbcType="VARCHAR"/>
+        <result property="orderAddr" column="order_addr" jdbcType="VARCHAR"/>
+        <result property="orderProductCount" column="order_product_count" jdbcType="INTEGER"/>
+        <result property="orderPrices" column="order_prices" jdbcType="OTHER"/>
+        <result property="postage" column="postage" jdbcType="OTHER"/>
+        <result property="practicalPrice" column="practical_price" jdbcType="OTHER"/>
+        <result property="payPostage" column="pay_postage" jdbcType="OTHER"/>
+        <result property="deductionPrice" column="deduction_price" jdbcType="OTHER"/>
+        <result property="discountId" column="discount_id" jdbcType="INTEGER"/>
+        <result property="payState" column="pay_state" jdbcType="INTEGER"/>
+        <result property="payTime" column="pay_time" jdbcType="TIMESTAMP"/>
+        <result property="payMethod" column="pay_method" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="orderState" column="order_state" jdbcType="INTEGER"/>
+        <result property="refundImage" column="refund_image" jdbcType="VARCHAR"/>
+        <result property="refundExplain" column="refund_explain" jdbcType="VARCHAR"/>
+        <result property="refundTime" column="refund_time" jdbcType="TIMESTAMP"/>
+        <result property="refundCause" column="refund_cause" jdbcType="VARCHAR"/>
+        <result property="refundNotCause" column="refund_not_cause" jdbcType="VARCHAR"/>
+        <result property="refundPrice" column="refund_price" jdbcType="OTHER"/>
+        <result property="expressCode" column="express_code" jdbcType="VARCHAR"/>
+        <result property="expressName" column="express_name" jdbcType="VARCHAR"/>
+        <result property="deliveryName" column="delivery_name" jdbcType="VARCHAR"/>
+        <result property="deliveryType" column="delivery_type" jdbcType="INTEGER"/>
+        <result property="expressOddnumbers" column="express_oddnumbers" jdbcType="VARCHAR"/>
+        <result property="deliveryPhone" column="delivery_phone" jdbcType="VARCHAR"/>
+        <result property="earnPoints" column="earn_points" jdbcType="INTEGER"/>
+        <result property="usePoints" column="use_points" jdbcType="INTEGER"/>
+        <result property="sendPoints" column="send_points" jdbcType="INTEGER"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <result property="orderSoleId" column="order_sole_id" jdbcType="VARCHAR"/>
+        <result property="adminRemarks" column="admin_remarks" jdbcType="VARCHAR"/>
+        <result property="commercialId" column="commercial_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OrderMap">
+        select
+          id, order_name, user_id, user_name, user_phone, order_addr, order_product_count, order_prices, postage, practical_price, pay_postage, deduction_price, discount_id, pay_state, pay_time, pay_method, create_time, order_state, refund_image, refund_explain, refund_time, refund_cause, refund_not_cause, refund_price, express_code, express_name, delivery_name, delivery_type, express_oddnumbers, delivery_phone, earn_points, use_points, send_points, remarks, is_delete, order_sole_id, admin_remarks, commercial_id
+        from weathersystem.order
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="OrderMap">
+        select
+          id, order_name, user_id, user_name, user_phone, order_addr, order_product_count, order_prices, postage, practical_price, pay_postage, deduction_price, discount_id, pay_state, pay_time, pay_method, create_time, order_state, refund_image, refund_explain, refund_time, refund_cause, refund_not_cause, refund_price, express_code, express_name, delivery_name, delivery_type, express_oddnumbers, delivery_phone, earn_points, use_points, send_points, remarks, is_delete, order_sole_id, admin_remarks, commercial_id
+        from weathersystem.order
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="OrderMap">
+        select
+          id, order_name, user_id, user_name, user_phone, order_addr, order_product_count, order_prices, postage, practical_price, pay_postage, deduction_price, discount_id, pay_state, pay_time, pay_method, create_time, order_state, refund_image, refund_explain, refund_time, refund_cause, refund_not_cause, refund_price, express_code, express_name, delivery_name, delivery_type, express_oddnumbers, delivery_phone, earn_points, use_points, send_points, remarks, is_delete, order_sole_id, admin_remarks, commercial_id
+        from weathersystem.order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderName != null and orderName != ''">
+                and order_name = #{orderName}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="userPhone != null and userPhone != ''">
+                and user_phone = #{userPhone}
+            </if>
+            <if test="orderAddr != null and orderAddr != ''">
+                and order_addr = #{orderAddr}
+            </if>
+            <if test="orderProductCount != null">
+                and order_product_count = #{orderProductCount}
+            </if>
+            <if test="orderPrices != null">
+                and order_prices = #{orderPrices}
+            </if>
+            <if test="postage != null">
+                and postage = #{postage}
+            </if>
+            <if test="practicalPrice != null">
+                and practical_price = #{practicalPrice}
+            </if>
+            <if test="payPostage != null">
+                and pay_postage = #{payPostage}
+            </if>
+            <if test="deductionPrice != null">
+                and deduction_price = #{deductionPrice}
+            </if>
+            <if test="discountId != null">
+                and discount_id = #{discountId}
+            </if>
+            <if test="payState != null">
+                and pay_state = #{payState}
+            </if>
+            <if test="payTime != null">
+                and pay_time = #{payTime}
+            </if>
+            <if test="payMethod != null">
+                and pay_method = #{payMethod}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="orderState != null">
+                and order_state = #{orderState}
+            </if>
+            <if test="refundImage != null and refundImage != ''">
+                and refund_image = #{refundImage}
+            </if>
+            <if test="refundExplain != null and refundExplain != ''">
+                and refund_explain = #{refundExplain}
+            </if>
+            <if test="refundTime != null">
+                and refund_time = #{refundTime}
+            </if>
+            <if test="refundCause != null and refundCause != ''">
+                and refund_cause = #{refundCause}
+            </if>
+            <if test="refundNotCause != null and refundNotCause != ''">
+                and refund_not_cause = #{refundNotCause}
+            </if>
+            <if test="refundPrice != null">
+                and refund_price = #{refundPrice}
+            </if>
+            <if test="expressCode != null and expressCode != ''">
+                and express_code = #{expressCode}
+            </if>
+            <if test="expressName != null and expressName != ''">
+                and express_name = #{expressName}
+            </if>
+            <if test="deliveryName != null and deliveryName != ''">
+                and delivery_name = #{deliveryName}
+            </if>
+            <if test="deliveryType != null">
+                and delivery_type = #{deliveryType}
+            </if>
+            <if test="expressOddnumbers != null and expressOddnumbers != ''">
+                and express_oddnumbers = #{expressOddnumbers}
+            </if>
+            <if test="deliveryPhone != null and deliveryPhone != ''">
+                and delivery_phone = #{deliveryPhone}
+            </if>
+            <if test="earnPoints != null">
+                and earn_points = #{earnPoints}
+            </if>
+            <if test="usePoints != null">
+                and use_points = #{usePoints}
+            </if>
+            <if test="sendPoints != null">
+                and send_points = #{sendPoints}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+            <if test="orderSoleId != null and orderSoleId != ''">
+                and order_sole_id = #{orderSoleId}
+            </if>
+            <if test="adminRemarks != null and adminRemarks != ''">
+                and admin_remarks = #{adminRemarks}
+            </if>
+            <if test="commercialId != null">
+                and commercial_id = #{commercialId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.order
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="orderName != null and orderName != ''">
+                order_name,
+            </if> 
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="userName != null and userName != ''">
+                user_name,
+            </if> 
+            <if test="userPhone != null and userPhone != ''">
+                user_phone,
+            </if> 
+            <if test="orderAddr != null and orderAddr != ''">
+                order_addr,
+            </if> 
+            <if test="orderProductCount != null">
+                order_product_count,
+            </if> 
+            <if test="orderPrices != null">
+                order_prices,
+            </if> 
+            <if test="postage != null">
+                postage,
+            </if> 
+            <if test="practicalPrice != null">
+                practical_price,
+            </if> 
+            <if test="payPostage != null">
+                pay_postage,
+            </if> 
+            <if test="deductionPrice != null">
+                deduction_price,
+            </if> 
+            <if test="discountId != null">
+                discount_id,
+            </if> 
+            <if test="payState != null">
+                pay_state,
+            </if> 
+            <if test="payTime != null">
+                pay_time,
+            </if> 
+            <if test="payMethod != null">
+                pay_method,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+            <if test="orderState != null">
+                order_state,
+            </if> 
+            <if test="refundImage != null and refundImage != ''">
+                refund_image,
+            </if> 
+            <if test="refundExplain != null and refundExplain != ''">
+                refund_explain,
+            </if> 
+            <if test="refundTime != null">
+                refund_time,
+            </if> 
+            <if test="refundCause != null and refundCause != ''">
+                refund_cause,
+            </if> 
+            <if test="refundNotCause != null and refundNotCause != ''">
+                refund_not_cause,
+            </if> 
+            <if test="refundPrice != null">
+                refund_price,
+            </if> 
+            <if test="expressCode != null and expressCode != ''">
+                express_code,
+            </if> 
+            <if test="expressName != null and expressName != ''">
+                express_name,
+            </if> 
+            <if test="deliveryName != null and deliveryName != ''">
+                delivery_name,
+            </if> 
+            <if test="deliveryType != null">
+                delivery_type,
+            </if> 
+            <if test="expressOddnumbers != null and expressOddnumbers != ''">
+                express_oddnumbers,
+            </if> 
+            <if test="deliveryPhone != null and deliveryPhone != ''">
+                delivery_phone,
+            </if> 
+            <if test="earnPoints != null">
+                earn_points,
+            </if> 
+            <if test="usePoints != null">
+                use_points,
+            </if> 
+            <if test="sendPoints != null">
+                send_points,
+            </if> 
+            <if test="remarks != null and remarks != ''">
+                remarks,
+            </if> 
+            <if test="isDelete != null">
+                is_delete,
+            </if> 
+            <if test="orderSoleId != null and orderSoleId != ''">
+                order_sole_id,
+            </if> 
+            <if test="adminRemarks != null and adminRemarks != ''">
+                admin_remarks,
+            </if> 
+            <if test="commercialId != null">
+                commercial_id,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="orderName != null and orderName != ''">
+                #{orderName},
+            </if>  
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="userName != null and userName != ''">
+                #{userName},
+            </if>  
+            <if test="userPhone != null and userPhone != ''">
+                #{userPhone},
+            </if>  
+            <if test="orderAddr != null and orderAddr != ''">
+                #{orderAddr},
+            </if>  
+            <if test="orderProductCount != null">
+                #{orderProductCount},
+            </if>  
+            <if test="orderPrices != null">
+                #{orderPrices},
+            </if>  
+            <if test="postage != null">
+                #{postage},
+            </if>  
+            <if test="practicalPrice != null">
+                #{practicalPrice},
+            </if>  
+            <if test="payPostage != null">
+                #{payPostage},
+            </if>  
+            <if test="deductionPrice != null">
+                #{deductionPrice},
+            </if>  
+            <if test="discountId != null">
+                #{discountId},
+            </if>  
+            <if test="payState != null">
+                #{payState},
+            </if>  
+            <if test="payTime != null">
+                #{payTime},
+            </if>  
+            <if test="payMethod != null">
+                #{payMethod},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+            <if test="orderState != null">
+                #{orderState},
+            </if>  
+            <if test="refundImage != null and refundImage != ''">
+                #{refundImage},
+            </if>  
+            <if test="refundExplain != null and refundExplain != ''">
+                #{refundExplain},
+            </if>  
+            <if test="refundTime != null">
+                #{refundTime},
+            </if>  
+            <if test="refundCause != null and refundCause != ''">
+                #{refundCause},
+            </if>  
+            <if test="refundNotCause != null and refundNotCause != ''">
+                #{refundNotCause},
+            </if>  
+            <if test="refundPrice != null">
+                #{refundPrice},
+            </if>  
+            <if test="expressCode != null and expressCode != ''">
+                #{expressCode},
+            </if>  
+            <if test="expressName != null and expressName != ''">
+                #{expressName},
+            </if>  
+            <if test="deliveryName != null and deliveryName != ''">
+                #{deliveryName},
+            </if>  
+            <if test="deliveryType != null">
+                #{deliveryType},
+            </if>  
+            <if test="expressOddnumbers != null and expressOddnumbers != ''">
+                #{expressOddnumbers},
+            </if>  
+            <if test="deliveryPhone != null and deliveryPhone != ''">
+                #{deliveryPhone},
+            </if>  
+            <if test="earnPoints != null">
+                #{earnPoints},
+            </if>  
+            <if test="usePoints != null">
+                #{usePoints},
+            </if>  
+            <if test="sendPoints != null">
+                #{sendPoints},
+            </if>  
+            <if test="remarks != null and remarks != ''">
+                #{remarks},
+            </if>  
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>  
+            <if test="orderSoleId != null and orderSoleId != ''">
+                #{orderSoleId},
+            </if>  
+            <if test="adminRemarks != null and adminRemarks != ''">
+                #{adminRemarks},
+            </if>  
+            <if test="commercialId != null">
+                #{commercialId},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.order
+        <set>
+            <if test="orderName != null and orderName != ''">
+                order_name = #{orderName},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="userPhone != null and userPhone != ''">
+                user_phone = #{userPhone},
+            </if>
+            <if test="orderAddr != null and orderAddr != ''">
+                order_addr = #{orderAddr},
+            </if>
+            <if test="orderProductCount != null">
+                order_product_count = #{orderProductCount},
+            </if>
+            <if test="orderPrices != null">
+                order_prices = #{orderPrices},
+            </if>
+            <if test="postage != null">
+                postage = #{postage},
+            </if>
+            <if test="practicalPrice != null">
+                practical_price = #{practicalPrice},
+            </if>
+            <if test="payPostage != null">
+                pay_postage = #{payPostage},
+            </if>
+            <if test="deductionPrice != null">
+                deduction_price = #{deductionPrice},
+            </if>
+            <if test="discountId != null">
+                discount_id = #{discountId},
+            </if>
+            <if test="payState != null">
+                pay_state = #{payState},
+            </if>
+            <if test="payTime != null">
+                pay_time = #{payTime},
+            </if>
+            <if test="payMethod != null">
+                pay_method = #{payMethod},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="orderState != null">
+                order_state = #{orderState},
+            </if>
+            <if test="refundImage != null and refundImage != ''">
+                refund_image = #{refundImage},
+            </if>
+            <if test="refundExplain != null and refundExplain != ''">
+                refund_explain = #{refundExplain},
+            </if>
+            <if test="refundTime != null">
+                refund_time = #{refundTime},
+            </if>
+            <if test="refundCause != null and refundCause != ''">
+                refund_cause = #{refundCause},
+            </if>
+            <if test="refundNotCause != null and refundNotCause != ''">
+                refund_not_cause = #{refundNotCause},
+            </if>
+            <if test="refundPrice != null">
+                refund_price = #{refundPrice},
+            </if>
+            <if test="expressCode != null and expressCode != ''">
+                express_code = #{expressCode},
+            </if>
+            <if test="expressName != null and expressName != ''">
+                express_name = #{expressName},
+            </if>
+            <if test="deliveryName != null and deliveryName != ''">
+                delivery_name = #{deliveryName},
+            </if>
+            <if test="deliveryType != null">
+                delivery_type = #{deliveryType},
+            </if>
+            <if test="expressOddnumbers != null and expressOddnumbers != ''">
+                express_oddnumbers = #{expressOddnumbers},
+            </if>
+            <if test="deliveryPhone != null and deliveryPhone != ''">
+                delivery_phone = #{deliveryPhone},
+            </if>
+            <if test="earnPoints != null">
+                earn_points = #{earnPoints},
+            </if>
+            <if test="usePoints != null">
+                use_points = #{usePoints},
+            </if>
+            <if test="sendPoints != null">
+                send_points = #{sendPoints},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+            <if test="orderSoleId != null and orderSoleId != ''">
+                order_sole_id = #{orderSoleId},
+            </if>
+            <if test="adminRemarks != null and adminRemarks != ''">
+                admin_remarks = #{adminRemarks},
+            </if>
+            <if test="commercialId != null">
+                commercial_id = #{commercialId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.order where id = #{id}
+    </delete>
+
+</mapper>

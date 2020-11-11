@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.GoodsParamModuleMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.GoodsParamModule" id="GoodsParamModuleMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="goodsSortId" column="goods_sort_id" jdbcType="INTEGER"/>
+        <result property="goodsParamName" column="goods_param_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GoodsParamModuleMap">
+        select
+          id, goods_sort_id, goods_param_name
+        from weathersystem.goods_param_module
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GoodsParamModuleMap">
+        select
+          id, goods_sort_id, goods_param_name
+        from weathersystem.goods_param_module
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GoodsParamModuleMap">
+        select
+          id, goods_sort_id, goods_param_name
+        from weathersystem.goods_param_module
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="goodsSortId != null">
+                and goods_sort_id = #{goodsSortId}
+            </if>
+            <if test="goodsParamName != null and goodsParamName != ''">
+                and goods_param_name = #{goodsParamName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.goods_param_module
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="goodsSortId != null">
+                goods_sort_id,
+            </if> 
+            <if test="goodsParamName != null and goodsParamName != ''">
+                goods_param_name,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="goodsSortId != null">
+                #{goodsSortId},
+            </if>  
+            <if test="goodsParamName != null and goodsParamName != ''">
+                #{goodsParamName},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.goods_param_module
+        <set>
+            <if test="goodsSortId != null">
+                goods_sort_id = #{goodsSortId},
+            </if>
+            <if test="goodsParamName != null and goodsParamName != ''">
+                goods_param_name = #{goodsParamName},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.goods_param_module where id = #{id}
+    </delete>
+
+</mapper>

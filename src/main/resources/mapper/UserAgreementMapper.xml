@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.UserAgreementMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.UserAgreement" id="UserAgreementMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="agreementName" column="agreement_name" jdbcType="VARCHAR"/>
+        <result property="agreementComment" column="agreement_comment" jdbcType="VARCHAR"/>
+        <result property="agreementType" column="agreement_type" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserAgreementMap">
+        select
+          id, agreement_name, agreement_comment, agreement_type, create_time
+        from weathersystem.user_agreement
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserAgreementMap">
+        select
+          id, agreement_name, agreement_comment, agreement_type, create_time
+        from weathersystem.user_agreement
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserAgreementMap">
+        select
+          id, agreement_name, agreement_comment, agreement_type, create_time
+        from weathersystem.user_agreement
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="agreementName != null and agreementName != ''">
+                and agreement_name = #{agreementName}
+            </if>
+            <if test="agreementComment != null and agreementComment != ''">
+                and agreement_comment = #{agreementComment}
+            </if>
+            <if test="agreementType != null">
+                and agreement_type = #{agreementType}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.user_agreement
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="agreementName != null and agreementName != ''">
+                agreement_name,
+            </if> 
+            <if test="agreementComment != null and agreementComment != ''">
+                agreement_comment,
+            </if> 
+            <if test="agreementType != null">
+                agreement_type,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="agreementName != null and agreementName != ''">
+                #{agreementName},
+            </if>  
+            <if test="agreementComment != null and agreementComment != ''">
+                #{agreementComment},
+            </if>  
+            <if test="agreementType != null">
+                #{agreementType},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.user_agreement
+        <set>
+            <if test="agreementName != null and agreementName != ''">
+                agreement_name = #{agreementName},
+            </if>
+            <if test="agreementComment != null and agreementComment != ''">
+                agreement_comment = #{agreementComment},
+            </if>
+            <if test="agreementType != null">
+                agreement_type = #{agreementType},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.user_agreement where id = #{id}
+    </delete>
+
+</mapper>

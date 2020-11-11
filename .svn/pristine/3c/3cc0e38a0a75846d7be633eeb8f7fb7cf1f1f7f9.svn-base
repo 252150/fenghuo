@@ -1,0 +1,64 @@
+server:
+  port: 8889
+  servlet:
+    context-path: /InfoShopMallManage
+spring:
+  servlet:
+     multipart:
+       enabled: true
+       file-size-threshold: 2KB
+       max-file-size: 500MB
+       max-request-size: 500MB
+  datasource: 
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: weathersystem
+    password: 123456
+    url: jdbc:mysql://121.37.190.48:3306/weathersystem?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+    druid: 
+      # 配置数据库连接池的初始化大小，最小，最大
+      initial-size: 5
+      # 配置连接池中维持的数据库连接最小数量
+      min-idle: 5
+      # 配置连接池中维持的数据库连接最大数量
+      max-active: 20
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      # 配置了max-wait之后，会默认启用公平锁，会影响并发性能，可以通过配置启用非公平锁来提升并发性能
+      use-unfair-lock: true
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置连接空闲后的最小存活时间
+      min-evictable-idle-time-millis: 300000
+      # 配置连接空闲后的最大存活时间
+      max-evictable-idle-time-millis: 400000
+      # 配置一个sql来检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      # 配置用于监控的扩展插件
+      filter:
+        stat:
+          #配置开启慢查询日志
+          log-slow-sql: true
+          #配置慢查询的标准(此处大于5秒就是慢查询)
+          slow-sql-millis: 5000
+          #开启sql监控
+          enabled: true
+mybatis:
+  config-location: classpath:/mybatis/MyBatisConfig.xml
+  mapper-locations: 
+  - classpath:/mapper/*Mapper.xml
+#配置分页插件pagehelper
+pagehelper:
+  helper-dialect: mysql
+  reasonable: false
+  support-methods-arguments: true
+#文件上传配置
+file:
+#  静态映射路径
+  staticAccessPath: /file/**
+  defaultFileAccessPath: /defaultFile/**
+#  文件保存路径
+  defaultFileFolder: D:/InfoShopMall/defaultFile/
+  uploadFolder: D:/InfoShopMall/
+
+

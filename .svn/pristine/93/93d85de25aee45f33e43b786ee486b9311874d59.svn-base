@@ -1,0 +1,95 @@
+package com.wanjia.infoshopmallmanage.entity;
+
+
+/**
+ * (Admin)实体类
+ *
+ * @author: wlj
+ * @date: 2020-10-13 16:27:33
+ */
+public class Admin {
+    
+    private Long id;
+    /**
+    * 用户id
+    */
+    private Long userId;
+    /**
+    * 账号
+    */
+    private String adminAccount;
+    /**
+    * 密码
+    */
+    private String adminPassword;
+    /**
+    * 状态 ： 0：禁用 1：启用
+    */
+    private Integer status;
+    /**
+    * 手机号 
+    */
+    private String phone;
+    /**
+    * 昵称
+    */
+    private String adminAccountName;
+
+        
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+        
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+        
+    public String getAdminAccount() {
+        return adminAccount;
+    }
+
+    public void setAdminAccount(String adminAccount) {
+        this.adminAccount = adminAccount;
+    }
+        
+    public String getAdminPassword() {
+        return adminPassword;
+    }
+
+    public void setAdminPassword(String adminPassword) {
+        this.adminPassword = adminPassword;
+    }
+        
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+        
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+        
+    public String getAdminAccountName() {
+        return adminAccountName;
+    }
+
+    public void setAdminAccountName(String adminAccountName) {
+        this.adminAccountName = adminAccountName;
+    }
+
+}

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.UserFootmarkMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.UserFootmark" id="UserFootmarkMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="footmarkType" column="footmark_type" jdbcType="INTEGER"/>
+        <result property="browseTime" column="browse_time" jdbcType="TIMESTAMP"/>
+        <result property="contentId" column="content_id" jdbcType="INTEGER"/>
+        <result property="longitude" column="longitude" jdbcType="VARCHAR"/>
+        <result property="latitude" column="latitude" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserFootmarkMap">
+        select
+          id, user_id, footmark_type, browse_time, content_id, longitude, latitude
+        from weathersystem.user_footmark
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserFootmarkMap">
+        select
+          id, user_id, footmark_type, browse_time, content_id, longitude, latitude
+        from weathersystem.user_footmark
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserFootmarkMap">
+        select
+          id, user_id, footmark_type, browse_time, content_id, longitude, latitude
+        from weathersystem.user_footmark
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="footmarkType != null">
+                and footmark_type = #{footmarkType}
+            </if>
+            <if test="browseTime != null">
+                and browse_time = #{browseTime}
+            </if>
+            <if test="contentId != null">
+                and content_id = #{contentId}
+            </if>
+            <if test="longitude != null and longitude != ''">
+                and longitude = #{longitude}
+            </if>
+            <if test="latitude != null and latitude != ''">
+                and latitude = #{latitude}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.user_footmark
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="footmarkType != null">
+                footmark_type,
+            </if> 
+            <if test="browseTime != null">
+                browse_time,
+            </if> 
+            <if test="contentId != null">
+                content_id,
+            </if> 
+            <if test="longitude != null and longitude != ''">
+                longitude,
+            </if> 
+            <if test="latitude != null and latitude != ''">
+                latitude,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="footmarkType != null">
+                #{footmarkType},
+            </if>  
+            <if test="browseTime != null">
+                #{browseTime},
+            </if>  
+            <if test="contentId != null">
+                #{contentId},
+            </if>  
+            <if test="longitude != null and longitude != ''">
+                #{longitude},
+            </if>  
+            <if test="latitude != null and latitude != ''">
+                #{latitude},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.user_footmark
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="footmarkType != null">
+                footmark_type = #{footmarkType},
+            </if>
+            <if test="browseTime != null">
+                browse_time = #{browseTime},
+            </if>
+            <if test="contentId != null">
+                content_id = #{contentId},
+            </if>
+            <if test="longitude != null and longitude != ''">
+                longitude = #{longitude},
+            </if>
+            <if test="latitude != null and latitude != ''">
+                latitude = #{latitude},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.user_footmark where id = #{id}
+    </delete>
+
+</mapper>

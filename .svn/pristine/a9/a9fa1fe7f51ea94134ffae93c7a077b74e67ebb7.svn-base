@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.GoodsPriceMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.GoodsPrice" id="GoodsPriceMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="goodsId" column="goods_id" jdbcType="INTEGER"/>
+        <result property="goodsPropertyValue" column="goods_property_value" jdbcType="VARCHAR"/>
+        <result property="goodsPropertyStock" column="goods_property_stock" jdbcType="INTEGER"/>
+        <result property="goodsPropertySaleNum" column="goods_property_sale_num" jdbcType="INTEGER"/>
+        <result property="goodsPropertyPrice" column="goods_property_price" jdbcType="OTHER"/>
+        <result property="goodsPropertyImage" column="goods_property_image" jdbcType="VARCHAR"/>
+        <result property="goodsPropertyOnlyValue" column="goods_property_only_value" jdbcType="VARCHAR"/>
+        <result property="goodsPropertyCost" column="goods_property_cost" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GoodsPriceMap">
+        select
+          id, goods_id, goods_property_value, goods_property_stock, goods_property_sale_num, goods_property_price, goods_property_image, goods_property_only_value, goods_property_cost
+        from weathersystem.goods_price
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GoodsPriceMap">
+        select
+          id, goods_id, goods_property_value, goods_property_stock, goods_property_sale_num, goods_property_price, goods_property_image, goods_property_only_value, goods_property_cost
+        from weathersystem.goods_price
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GoodsPriceMap">
+        select
+          id, goods_id, goods_property_value, goods_property_stock, goods_property_sale_num, goods_property_price, goods_property_image, goods_property_only_value, goods_property_cost
+        from weathersystem.goods_price
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="goodsId != null">
+                and goods_id = #{goodsId}
+            </if>
+            <if test="goodsPropertyValue != null and goodsPropertyValue != ''">
+                and goods_property_value = #{goodsPropertyValue}
+            </if>
+            <if test="goodsPropertyStock != null">
+                and goods_property_stock = #{goodsPropertyStock}
+            </if>
+            <if test="goodsPropertySaleNum != null">
+                and goods_property_sale_num = #{goodsPropertySaleNum}
+            </if>
+            <if test="goodsPropertyPrice != null">
+                and goods_property_price = #{goodsPropertyPrice}
+            </if>
+            <if test="goodsPropertyImage != null and goodsPropertyImage != ''">
+                and goods_property_image = #{goodsPropertyImage}
+            </if>
+            <if test="goodsPropertyOnlyValue != null and goodsPropertyOnlyValue != ''">
+                and goods_property_only_value = #{goodsPropertyOnlyValue}
+            </if>
+            <if test="goodsPropertyCost != null">
+                and goods_property_cost = #{goodsPropertyCost}
+            </if>
+        </where>
+    </select>
+    <select id="countByGoodsId" resultType="java.lang.Integer">
+        select count(*) from weathersystem.goods_price where goods_id = #{goodsId}
+    </select>
+
+    <select id="selectByGoodsId" resultMap="GoodsPriceMap">
+        select * from weathersystem.goods_price where goods_id = #{goodsId}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.goods_price
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="goodsId != null">
+                goods_id,
+            </if> 
+            <if test="goodsPropertyValue != null and goodsPropertyValue != ''">
+                goods_property_value,
+            </if> 
+            <if test="goodsPropertyStock != null">
+                goods_property_stock,
+            </if> 
+            <if test="goodsPropertySaleNum != null">
+                goods_property_sale_num,
+            </if> 
+            <if test="goodsPropertyPrice != null">
+                goods_property_price,
+            </if> 
+            <if test="goodsPropertyImage != null and goodsPropertyImage != ''">
+                goods_property_image,
+            </if> 
+            <if test="goodsPropertyOnlyValue != null and goodsPropertyOnlyValue != ''">
+                goods_property_only_value,
+            </if> 
+            <if test="goodsPropertyCost != null">
+                goods_property_cost,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>  
+            <if test="goodsPropertyValue != null and goodsPropertyValue != ''">
+                #{goodsPropertyValue},
+            </if>  
+            <if test="goodsPropertyStock != null">
+                #{goodsPropertyStock},
+            </if>  
+            <if test="goodsPropertySaleNum != null">
+                #{goodsPropertySaleNum},
+            </if>  
+            <if test="goodsPropertyPrice != null">
+                #{goodsPropertyPrice},
+            </if>  
+            <if test="goodsPropertyImage != null and goodsPropertyImage != ''">
+                #{goodsPropertyImage},
+            </if>  
+            <if test="goodsPropertyOnlyValue != null and goodsPropertyOnlyValue != ''">
+                #{goodsPropertyOnlyValue},
+            </if>  
+            <if test="goodsPropertyCost != null">
+                #{goodsPropertyCost},
+            </if>  
+        </trim>
+    </insert>
+    <insert id="batchInsert">
+        insert into weathersystem.goods_price(goods_id,goods_property_value,goods_property_stock,goods_property_sale_num,goods_property_price
+        ,goods_property_image,goods_property_only_value,goods_property_cost)
+        values
+        <foreach collection="list" item="goodsPrice" index="index"
+                 separator=",">
+        (#{goodsPrice.goodsId}, #{goodsPrice.goodsPropertyValue}, #{goodsPrice.goodsPropertyStock}, #{goodsPrice.goodsPropertySaleNum}, #{goodsPrice.goodsPropertyPrice},
+        #{goodsPrice.goodsPropertyImage}, #{goodsPrice.goodsPropertyOnlyValue},#{goodsPrice.goodsPropertyCost})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.goods_price
+        <set>
+            <if test="goodsId != null">
+                goods_id = #{goodsId},
+            </if>
+            <if test="goodsPropertyValue != null and goodsPropertyValue != ''">
+                goods_property_value = #{goodsPropertyValue},
+            </if>
+            <if test="goodsPropertyStock != null">
+                goods_property_stock = #{goodsPropertyStock},
+            </if>
+            <if test="goodsPropertySaleNum != null">
+                goods_property_sale_num = #{goodsPropertySaleNum},
+            </if>
+            <if test="goodsPropertyPrice != null">
+                goods_property_price = #{goodsPropertyPrice},
+            </if>
+            <if test="goodsPropertyImage != null and goodsPropertyImage != ''">
+                goods_property_image = #{goodsPropertyImage},
+            </if>
+            <if test="goodsPropertyOnlyValue != null and goodsPropertyOnlyValue != ''">
+                goods_property_only_value = #{goodsPropertyOnlyValue},
+            </if>
+            <if test="goodsPropertyCost != null">
+                goods_property_cost = #{goodsPropertyCost},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.goods_price where id = #{id}
+    </delete>
+    <delete id="deleteByGoodsId">
+        delete from weathersystem.goods_price where goods_id = #{goodsId}
+    </delete>
+
+</mapper>

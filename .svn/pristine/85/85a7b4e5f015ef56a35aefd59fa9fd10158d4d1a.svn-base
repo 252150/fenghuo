@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    scan：当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+    scanPeriod：设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒；当scan为true时，此属性生效。默认的时间间隔为1分钟。
+    debug：当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
+-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- 定义日志的根目录 -->
+    <property name="LOG_HOME" value="${log.path}"/>
+ 
+    <!-- ch.qos.logback.core.ConsoleAppender 表示控制台输出 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!--
+        	日志输出格式：
+				%d表示日期时间，
+				%thread表示线程名，
+				%-5level：级别从左显示5个字符宽度
+				%logger{50} 表示logger名字最长50个字符，否则按照句点分割。
+				%msg：日志消息，
+				%n是换行符
+        -->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!-- 当指定application.properties 里面 spring.profiles.active=dev 时，采用第一种格式
+            <springProfileb 标签的包含的范围可大可小，自己确定即可否则采用第二种格式-->
+            <springProfile name="!dev">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ----> [%thread] ---> %-5level %logger{50} - %msg%n</pattern>
+            </springProfile>
+            <!--默认配置-->
+            <springProfile name="dev">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ==== [%thread] ==== %-5level %logger{50} - %msg%n</pattern>
+            </springProfile>
+        </layout>
+        <!-- ThresholdFilter：过滤出INFO级别以上的日志信息 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+ 
+ 
+    <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->
+    <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/info.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        	<!-- 日志文件达到一定大小，就会做分割处理并归档；日志文件也会按照时间归档，按天或按月归档取决于fileNamePattern的日期格式中的最小位(dd:按天归档；MM:按月归档；)-->
+        	<!-- fileNamePattern：日志文件归档的格式-->
+            <fileNamePattern>${LOG_HOME}/info/%d{yyyy-MM-dd}/info.%i.log.zip</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[${SERVER_NAME}][%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5level][%thread][%file:%line] - %msg%n
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    
+    <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->
+    <appender name="USERLOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/userOperation.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/userOperation/%d{yyyy-MM-dd}/userOperation.%i.log</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <!--日志文件最大的保存历史数量,只有当每天生成有且只有一个文件时才表示保留天数-->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%msg%n
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+ 
+    <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/debug.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/debug/%d{yyyy-MM-dd}/debug.%i.log.zip</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[${SERVER_NAME}][%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5level][%thread][%file:%line] - %msg%n
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+ 
+    <appender name="WARN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/warn.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/warn/%d{yyyy-MM-dd}/warn.%i.log.zip</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[${SERVER_NAME}][%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5level][%thread][%file:%line] - %msg%n
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+ 
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/error.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/error/%d{yyyy-MM-dd}/error.%i.log.zip</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[${SERVER_NAME}][%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5level][%thread][%file:%line] - %msg%n
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+ 
+    <appender name="TRACE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/trace.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/trace/%d{yyyy-MM-dd}/trace.%i.log.zip</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[${SERVER_NAME}][%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5level][%thread][%file:%line] - %msg%n
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+ 
+    <!--
+		logger主要用于存放日志对象，也可以定义日志类型、级别
+			name：表示匹配的logger类型前缀，也就是包的前半部分
+			level：把指定级别之上的(包括本身)所有日志都给appender-ref指定的appender进行处理
+			additivity：作用在于children-logger是否使用 rootLogger配置的appender进行输出，
+				false：当前的logger和root中都有相同的appender时，当前的logger中已经被appender处理的日志信息，不会再被root中的另一个相同的appender处理
+				true：当前的logger和root中都有相同的appender时，当前的logger中已经被appender处理的日志信息，依然会再被root中的另一个相同的appender处理
+    -->
+    <!-- 
+    logger的name属性配置的是打印某一个类，或某一个包的日志信息，additivity作用是是否相加到父，也就是如果你在logger配置了appender又在root中配置了相同的appender，设置为true会看到控制台打印了两遍日志，如果设置为false则只打印一次，root中的相同appender不生效。
+    -->
+ 
+    <!-- 处理用户操作日志的logger -->
+    <logger name="com.wanjia.infoshopmall.app.aspect" level="info" additivity="false">
+    	<appender-ref ref="USERLOG_FILE"/>
+    	<appender-ref ref="ERROR_FILE"/>
+    </logger>
+ 
+    <!--
+        	root与logger是父子关系，没有特别定义则默认为root，任何一个类只会和一个logger对应，
+        	要么是定义的logger，要么是root，判断的关键在于找到这个logger，然后判断这个logger的appender和level。
+    -->
+    <root level="trace" additivity="false">
+        <appender-ref ref="TRACE_FILE"/>
+        <appender-ref ref="DEBUG_FILE"/>
+ 		<appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="WARN_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+ 
+ 
+</configuration>

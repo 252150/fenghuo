@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.ScheduleMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.Schedule" id="ScheduleMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="uid" column="uid" jdbcType="INTEGER"/>
+        <result property="scheduletitle" column="scheduleTitle" jdbcType="VARCHAR"/>
+        <result property="isallday" column="isAllDay" jdbcType="INTEGER"/>
+        <result property="starttime" column="startTime" jdbcType="TIMESTAMP"/>
+        <result property="endtime" column="endTime" jdbcType="TIMESTAMP"/>
+        <result property="noticetime" column="noticeTime" jdbcType="TIMESTAMP"/>
+        <result property="rate" column="rate" jdbcType="INTEGER"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="addr" column="addr" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ScheduleMap">
+        select
+          id, uid, scheduleTitle, isAllDay, startTime, endTime, noticeTime, rate, remarks, addr, type
+        from weathersystem.schedule
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ScheduleMap">
+        select
+          id, uid, scheduleTitle, isAllDay, startTime, endTime, noticeTime, rate, remarks, addr, type
+        from weathersystem.schedule
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ScheduleMap">
+        select
+          id, uid, scheduleTitle, isAllDay, startTime, endTime, noticeTime, rate, remarks, addr, type
+        from weathersystem.schedule
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="uid != null">
+                and uid = #{uid}
+            </if>
+            <if test="scheduletitle != null and scheduletitle != ''">
+                and scheduleTitle = #{scheduletitle}
+            </if>
+            <if test="isallday != null">
+                and isAllDay = #{isallday}
+            </if>
+            <if test="starttime != null">
+                and startTime = #{starttime}
+            </if>
+            <if test="endtime != null">
+                and endTime = #{endtime}
+            </if>
+            <if test="noticetime != null">
+                and noticeTime = #{noticetime}
+            </if>
+            <if test="rate != null">
+                and rate = #{rate}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="addr != null and addr != ''">
+                and addr = #{addr}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.schedule
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="uid != null">
+                uid,
+            </if> 
+            <if test="scheduletitle != null and scheduletitle != ''">
+                scheduleTitle,
+            </if> 
+            <if test="isallday != null">
+                isAllDay,
+            </if> 
+            <if test="starttime != null">
+                startTime,
+            </if> 
+            <if test="endtime != null">
+                endTime,
+            </if> 
+            <if test="noticetime != null">
+                noticeTime,
+            </if> 
+            <if test="rate != null">
+                rate,
+            </if> 
+            <if test="remarks != null and remarks != ''">
+                remarks,
+            </if> 
+            <if test="addr != null and addr != ''">
+                addr,
+            </if> 
+            <if test="type != null">
+                type,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="uid != null">
+                #{uid},
+            </if>  
+            <if test="scheduletitle != null and scheduletitle != ''">
+                #{scheduletitle},
+            </if>  
+            <if test="isallday != null">
+                #{isallday},
+            </if>  
+            <if test="starttime != null">
+                #{starttime},
+            </if>  
+            <if test="endtime != null">
+                #{endtime},
+            </if>  
+            <if test="noticetime != null">
+                #{noticetime},
+            </if>  
+            <if test="rate != null">
+                #{rate},
+            </if>  
+            <if test="remarks != null and remarks != ''">
+                #{remarks},
+            </if>  
+            <if test="addr != null and addr != ''">
+                #{addr},
+            </if>  
+            <if test="type != null">
+                #{type},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.schedule
+        <set>
+            <if test="uid != null">
+                uid = #{uid},
+            </if>
+            <if test="scheduletitle != null and scheduletitle != ''">
+                scheduleTitle = #{scheduletitle},
+            </if>
+            <if test="isallday != null">
+                isAllDay = #{isallday},
+            </if>
+            <if test="starttime != null">
+                startTime = #{starttime},
+            </if>
+            <if test="endtime != null">
+                endTime = #{endtime},
+            </if>
+            <if test="noticetime != null">
+                noticeTime = #{noticetime},
+            </if>
+            <if test="rate != null">
+                rate = #{rate},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="addr != null and addr != ''">
+                addr = #{addr},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.schedule where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.AdvertiseClickDeliMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.AdvertiseClickDeli" id="AdvertiseClickDeliMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="advertiseId" column="advertise_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="clickTime" column="click_time" jdbcType="TIMESTAMP"/>
+        <result property="clickLongitude" column="click_longitude" jdbcType="VARCHAR"/>
+        <result property="clickLatitude" column="click_latitude" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AdvertiseClickDeliMap">
+        select
+          id, advertise_id, user_id, click_time, click_longitude, click_latitude
+        from weathersystem.advertise_click_deli
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AdvertiseClickDeliMap">
+        select
+          id, advertise_id, user_id, click_time, click_longitude, click_latitude
+        from weathersystem.advertise_click_deli
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AdvertiseClickDeliMap">
+        select
+          id, advertise_id, user_id, click_time, click_longitude, click_latitude
+        from weathersystem.advertise_click_deli
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="advertiseId != null">
+                and advertise_id = #{advertiseId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="clickTime != null">
+                and click_time = #{clickTime}
+            </if>
+            <if test="clickLongitude != null and clickLongitude != ''">
+                and click_longitude = #{clickLongitude}
+            </if>
+            <if test="clickLatitude != null and clickLatitude != ''">
+                and click_latitude = #{clickLatitude}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.advertise_click_deli
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="advertiseId != null">
+                advertise_id,
+            </if> 
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="clickTime != null">
+                click_time,
+            </if> 
+            <if test="clickLongitude != null and clickLongitude != ''">
+                click_longitude,
+            </if> 
+            <if test="clickLatitude != null and clickLatitude != ''">
+                click_latitude,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="advertiseId != null">
+                #{advertiseId},
+            </if>  
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="clickTime != null">
+                #{clickTime},
+            </if>  
+            <if test="clickLongitude != null and clickLongitude != ''">
+                #{clickLongitude},
+            </if>  
+            <if test="clickLatitude != null and clickLatitude != ''">
+                #{clickLatitude},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.advertise_click_deli
+        <set>
+            <if test="advertiseId != null">
+                advertise_id = #{advertiseId},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="clickTime != null">
+                click_time = #{clickTime},
+            </if>
+            <if test="clickLongitude != null and clickLongitude != ''">
+                click_longitude = #{clickLongitude},
+            </if>
+            <if test="clickLatitude != null and clickLatitude != ''">
+                click_latitude = #{clickLatitude},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.advertise_click_deli where id = #{id}
+    </delete>
+
+</mapper>

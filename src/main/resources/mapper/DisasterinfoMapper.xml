@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.DisasterinfoMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.Disasterinfo" id="DisasterinfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="adminId" column="admin_id" jdbcType="INTEGER"/>
+        <result property="messImage" column="mess_image" jdbcType="VARCHAR"/>
+        <result property="messVidio" column="mess_vidio" jdbcType="VARCHAR"/>
+        <result property="warningContent" column="warning_content" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="longitude" column="longitude" jdbcType="VARCHAR"/>
+        <result property="latitude" column="latitude" jdbcType="VARCHAR"/>
+        <result property="radius" column="radius" jdbcType="INTEGER"/>
+        <result property="warningType" column="warning_type" jdbcType="INTEGER"/>
+        <result property="warningLevel" column="warning_level" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DisasterinfoMap">
+        select
+          id, admin_id, mess_image, mess_vidio, warning_content, create_time, longitude, latitude, radius, warning_type, warning_level
+        from weathersystem.disasterinfo
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DisasterinfoMap">
+        select
+          id, admin_id, mess_image, mess_vidio, warning_content, create_time, longitude, latitude, radius, warning_type, warning_level
+        from weathersystem.disasterinfo
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DisasterinfoMap">
+        select
+          id, admin_id, mess_image, mess_vidio, warning_content, create_time, longitude, latitude, radius, warning_type, warning_level
+        from weathersystem.disasterinfo
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="adminId != null">
+                and admin_id = #{adminId}
+            </if>
+            <if test="messImage != null and messImage != ''">
+                and mess_image = #{messImage}
+            </if>
+            <if test="messVidio != null and messVidio != ''">
+                and mess_vidio = #{messVidio}
+            </if>
+            <if test="warningContent != null and warningContent != ''">
+                and warning_content = #{warningContent}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="longitude != null and longitude != ''">
+                and longitude = #{longitude}
+            </if>
+            <if test="latitude != null and latitude != ''">
+                and latitude = #{latitude}
+            </if>
+            <if test="radius != null">
+                and radius = #{radius}
+            </if>
+            <if test="warningType != null">
+                and warning_type = #{warningType}
+            </if>
+            <if test="warningLevel != null">
+                and warning_level = #{warningLevel}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.disasterinfo
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="adminId != null">
+                admin_id,
+            </if> 
+            <if test="messImage != null and messImage != ''">
+                mess_image,
+            </if> 
+            <if test="messVidio != null and messVidio != ''">
+                mess_vidio,
+            </if> 
+            <if test="warningContent != null and warningContent != ''">
+                warning_content,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+            <if test="longitude != null and longitude != ''">
+                longitude,
+            </if> 
+            <if test="latitude != null and latitude != ''">
+                latitude,
+            </if> 
+            <if test="radius != null">
+                radius,
+            </if> 
+            <if test="warningType != null">
+                warning_type,
+            </if> 
+            <if test="warningLevel != null">
+                warning_level,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="adminId != null">
+                #{adminId},
+            </if>  
+            <if test="messImage != null and messImage != ''">
+                #{messImage},
+            </if>  
+            <if test="messVidio != null and messVidio != ''">
+                #{messVidio},
+            </if>  
+            <if test="warningContent != null and warningContent != ''">
+                #{warningContent},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+            <if test="longitude != null and longitude != ''">
+                #{longitude},
+            </if>  
+            <if test="latitude != null and latitude != ''">
+                #{latitude},
+            </if>  
+            <if test="radius != null">
+                #{radius},
+            </if>  
+            <if test="warningType != null">
+                #{warningType},
+            </if>  
+            <if test="warningLevel != null">
+                #{warningLevel},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.disasterinfo
+        <set>
+            <if test="adminId != null">
+                admin_id = #{adminId},
+            </if>
+            <if test="messImage != null and messImage != ''">
+                mess_image = #{messImage},
+            </if>
+            <if test="messVidio != null and messVidio != ''">
+                mess_vidio = #{messVidio},
+            </if>
+            <if test="warningContent != null and warningContent != ''">
+                warning_content = #{warningContent},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="longitude != null and longitude != ''">
+                longitude = #{longitude},
+            </if>
+            <if test="latitude != null and latitude != ''">
+                latitude = #{latitude},
+            </if>
+            <if test="radius != null">
+                radius = #{radius},
+            </if>
+            <if test="warningType != null">
+                warning_type = #{warningType},
+            </if>
+            <if test="warningLevel != null">
+                warning_level = #{warningLevel},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.disasterinfo where id = #{id}
+    </delete>
+
+</mapper>

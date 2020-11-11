@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.MsgCommentMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.MsgComment" id="MsgCommentMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="messPublishId" column="mess_publish_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="commentContent" column="comment_content" jdbcType="VARCHAR"/>
+        <result property="commentTime" column="comment_time" jdbcType="TIMESTAMP"/>
+        <result property="count" column="count" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MsgCommentMap">
+        select
+          id, mess_publish_id, user_id, comment_content, comment_time, count
+        from weathersystem.msg_comment
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="MsgCommentMap">
+        select
+          id, mess_publish_id, user_id, comment_content, comment_time, count
+        from weathersystem.msg_comment
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="MsgCommentMap">
+        select
+          id, mess_publish_id, user_id, comment_content, comment_time, count
+        from weathersystem.msg_comment
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="messPublishId != null">
+                and mess_publish_id = #{messPublishId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="commentContent != null and commentContent != ''">
+                and comment_content = #{commentContent}
+            </if>
+            <if test="commentTime != null">
+                and comment_time = #{commentTime}
+            </if>
+            <if test="count != null">
+                and count = #{count}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.msg_comment
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="messPublishId != null">
+                mess_publish_id,
+            </if> 
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="commentContent != null and commentContent != ''">
+                comment_content,
+            </if> 
+            <if test="commentTime != null">
+                comment_time,
+            </if> 
+            <if test="count != null">
+                count,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="messPublishId != null">
+                #{messPublishId},
+            </if>  
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="commentContent != null and commentContent != ''">
+                #{commentContent},
+            </if>  
+            <if test="commentTime != null">
+                #{commentTime},
+            </if>  
+            <if test="count != null">
+                #{count},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.msg_comment
+        <set>
+            <if test="messPublishId != null">
+                mess_publish_id = #{messPublishId},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="commentContent != null and commentContent != ''">
+                comment_content = #{commentContent},
+            </if>
+            <if test="commentTime != null">
+                comment_time = #{commentTime},
+            </if>
+            <if test="count != null">
+                count = #{count},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.msg_comment where id = #{id}
+    </delete>
+
+</mapper>

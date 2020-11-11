@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.LatestWordGroupMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.LatestWordGroup" id="LatestWordGroupMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="groupId" column="group_id" jdbcType="INTEGER"/>
+        <result property="sendUserId" column="send_user_id" jdbcType="INTEGER"/>
+        <result property="chatText" column="chat_text" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="chatStatus" column="chat_status" jdbcType="INTEGER"/>
+        <result property="unreadMessageNum" column="unread_message_num" jdbcType="INTEGER"/>
+        <result property="chatMessageType" column="chat_message_type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="LatestWordGroupMap">
+        select
+          id, user_id, group_id, send_user_id, chat_text, create_time, chat_status, unread_message_num, chat_message_type
+        from weathersystem.latest_word_group
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="LatestWordGroupMap">
+        select
+          id, user_id, group_id, send_user_id, chat_text, create_time, chat_status, unread_message_num, chat_message_type
+        from weathersystem.latest_word_group
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="LatestWordGroupMap">
+        select
+          id, user_id, group_id, send_user_id, chat_text, create_time, chat_status, unread_message_num, chat_message_type
+        from weathersystem.latest_word_group
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="groupId != null">
+                and group_id = #{groupId}
+            </if>
+            <if test="sendUserId != null">
+                and send_user_id = #{sendUserId}
+            </if>
+            <if test="chatText != null and chatText != ''">
+                and chat_text = #{chatText}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="chatStatus != null">
+                and chat_status = #{chatStatus}
+            </if>
+            <if test="unreadMessageNum != null">
+                and unread_message_num = #{unreadMessageNum}
+            </if>
+            <if test="chatMessageType != null">
+                and chat_message_type = #{chatMessageType}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.latest_word_group
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="groupId != null">
+                group_id,
+            </if> 
+            <if test="sendUserId != null">
+                send_user_id,
+            </if> 
+            <if test="chatText != null and chatText != ''">
+                chat_text,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+            <if test="chatStatus != null">
+                chat_status,
+            </if> 
+            <if test="unreadMessageNum != null">
+                unread_message_num,
+            </if> 
+            <if test="chatMessageType != null">
+                chat_message_type,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="groupId != null">
+                #{groupId},
+            </if>  
+            <if test="sendUserId != null">
+                #{sendUserId},
+            </if>  
+            <if test="chatText != null and chatText != ''">
+                #{chatText},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+            <if test="chatStatus != null">
+                #{chatStatus},
+            </if>  
+            <if test="unreadMessageNum != null">
+                #{unreadMessageNum},
+            </if>  
+            <if test="chatMessageType != null">
+                #{chatMessageType},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.latest_word_group
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId},
+            </if>
+            <if test="sendUserId != null">
+                send_user_id = #{sendUserId},
+            </if>
+            <if test="chatText != null and chatText != ''">
+                chat_text = #{chatText},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="chatStatus != null">
+                chat_status = #{chatStatus},
+            </if>
+            <if test="unreadMessageNum != null">
+                unread_message_num = #{unreadMessageNum},
+            </if>
+            <if test="chatMessageType != null">
+                chat_message_type = #{chatMessageType},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.latest_word_group where id = #{id}
+    </delete>
+
+</mapper>

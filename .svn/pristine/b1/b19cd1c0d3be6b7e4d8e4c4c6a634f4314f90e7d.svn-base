@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.AdminMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.Admin" id="AdminMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="adminAccount" column="admin_account" jdbcType="VARCHAR"/>
+        <result property="adminPassword" column="admin_password" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="adminAccountName" column="admin_account_name" jdbcType="VARCHAR"/>
+        <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AdminMap">
+        select
+         a.id, a.user_id, a.admin_account, a.status, a.phone, a.admin_account_name,b.role_id,c.role_name
+        from weathersystem.admin a,admin_role b,role c
+        where
+        a.id = b.admin_id
+        and b.role_id =  c.role_id
+        and a.id = #{id}
+    </select>
+        <!--查询单个-->
+    <select id="queryBysId" resultMap="AdminMap">
+        select
+         a.id, a.user_id, a.admin_account, a.status, a.phone, a.admin_account_name
+        from weathersystem.admin a
+        where
+        a.id = #{id}
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AdminMap">
+        select
+          id, user_id, admin_account, admin_password, status, phone, admin_account_name
+        from weathersystem.admin
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="conditionQuery" resultMap="AdminMap">
+        select
+        a.id, a.user_id, a.admin_account, a.status, a.phone, a.admin_account_name,b.role_id,c.role_name
+        from weathersystem.admin a,admin_role b,role c
+        <where>
+            a.id = b.admin_id
+            and b.role_id =  c.role_id
+            <if test="id != null">
+                and a.id = #{id}
+            </if>
+            <if test="userId != null">
+                and a.user_id = #{userId}
+            </if>
+            <if test="adminAccount != null and adminAccount != ''">
+                and a.admin_account = #{adminAccount}
+            </if>
+            <if test="status != null">
+                and a.status = #{status}
+            </if>
+            <if test="phone != null and phone != ''">
+                and a.phone = #{phone}
+            </if>
+            <if test="adminAccountName != null and adminAccountName != ''">
+                and a.admin_account_name = #{adminAccountName}
+            </if>
+            <if test="roleId != null">
+                and b.role_id = #{roleId}
+            </if>
+        </where>
+    </select>
+    <select id="selectByAccountAndPwd" resultMap="AdminMap">
+        select * from weathersystem.admin where admin_account = #{account} and admin_password = #{password} and status = 1
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.admin
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="adminAccount != null and adminAccount != ''">
+                admin_account,
+            </if> 
+            <if test="adminPassword != null and adminPassword != ''">
+                admin_password,
+            </if> 
+            <if test="status != null">
+                status,
+            </if> 
+            <if test="phone != null and phone != ''">
+                phone,
+            </if> 
+            <if test="adminAccountName != null and adminAccountName != ''">
+                admin_account_name,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="adminAccount != null and adminAccount != ''">
+                #{adminAccount},
+            </if>  
+            <if test="adminPassword != null and adminPassword != ''">
+                #{adminPassword},
+            </if>  
+            <if test="status != null">
+                #{status},
+            </if>  
+            <if test="phone != null and phone != ''">
+                #{phone},
+            </if>  
+            <if test="adminAccountName != null and adminAccountName != ''">
+                #{adminAccountName},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.admin
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="adminAccount != null and adminAccount != ''">
+                admin_account = #{adminAccount},
+            </if>
+            <if test="adminPassword != null and adminPassword != ''">
+                admin_password = #{adminPassword},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="adminAccountName != null and adminAccountName != ''">
+                admin_account_name = #{adminAccountName},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="changePassword">
+        update admin set admin_password = #{newPassword} where id = #{adminId} and admin_password = #{password}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.admin where id = #{id}
+    </delete>
+
+</mapper>

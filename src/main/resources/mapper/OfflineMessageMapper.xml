@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.OfflineMessageMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.OfflineMessage" id="OfflineMessageMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="senderId" column="sender_id" jdbcType="INTEGER"/>
+        <result property="receiverId" column="receiver_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="msgType" column="msg_type" jdbcType="INTEGER"/>
+        <result property="chatType" column="chat_type" jdbcType="INTEGER"/>
+        <result property="groupId" column="group_id" jdbcType="INTEGER"/>
+        <result property="friendGroupId" column="friend_group_id" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OfflineMessageMap">
+        select
+          id, sender_id, receiver_id, create_time, msg_type, chat_type, group_id, friend_group_id, content, user_id
+        from weathersystem.offline_message
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="OfflineMessageMap">
+        select
+          id, sender_id, receiver_id, create_time, msg_type, chat_type, group_id, friend_group_id, content, user_id
+        from weathersystem.offline_message
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="OfflineMessageMap">
+        select
+          id, sender_id, receiver_id, create_time, msg_type, chat_type, group_id, friend_group_id, content, user_id
+        from weathersystem.offline_message
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="senderId != null">
+                and sender_id = #{senderId}
+            </if>
+            <if test="receiverId != null">
+                and receiver_id = #{receiverId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="msgType != null">
+                and msg_type = #{msgType}
+            </if>
+            <if test="chatType != null">
+                and chat_type = #{chatType}
+            </if>
+            <if test="groupId != null">
+                and group_id = #{groupId}
+            </if>
+            <if test="friendGroupId != null">
+                and friend_group_id = #{friendGroupId}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.offline_message
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="senderId != null">
+                sender_id,
+            </if> 
+            <if test="receiverId != null">
+                receiver_id,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+            <if test="msgType != null">
+                msg_type,
+            </if> 
+            <if test="chatType != null">
+                chat_type,
+            </if> 
+            <if test="groupId != null">
+                group_id,
+            </if> 
+            <if test="friendGroupId != null">
+                friend_group_id,
+            </if> 
+            <if test="content != null and content != ''">
+                content,
+            </if> 
+            <if test="userId != null">
+                user_id,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="senderId != null">
+                #{senderId},
+            </if>  
+            <if test="receiverId != null">
+                #{receiverId},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+            <if test="msgType != null">
+                #{msgType},
+            </if>  
+            <if test="chatType != null">
+                #{chatType},
+            </if>  
+            <if test="groupId != null">
+                #{groupId},
+            </if>  
+            <if test="friendGroupId != null">
+                #{friendGroupId},
+            </if>  
+            <if test="content != null and content != ''">
+                #{content},
+            </if>  
+            <if test="userId != null">
+                #{userId},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.offline_message
+        <set>
+            <if test="senderId != null">
+                sender_id = #{senderId},
+            </if>
+            <if test="receiverId != null">
+                receiver_id = #{receiverId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="msgType != null">
+                msg_type = #{msgType},
+            </if>
+            <if test="chatType != null">
+                chat_type = #{chatType},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId},
+            </if>
+            <if test="friendGroupId != null">
+                friend_group_id = #{friendGroupId},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.offline_message where id = #{id}
+    </delete>
+
+</mapper>

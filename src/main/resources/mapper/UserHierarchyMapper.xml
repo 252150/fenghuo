@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.UserHierarchyMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.UserHierarchy" id="UserHierarchyMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="longitude" column="longitude" jdbcType="VARCHAR"/>
+        <result property="latitude" column="latitude" jdbcType="VARCHAR"/>
+        <result property="radius" column="radius" jdbcType="INTEGER"/>
+        <result property="addrArea" column="addr_area" jdbcType="VARCHAR"/>
+        <result property="addrDetail" column="addr_detail" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserHierarchyMap">
+        select
+          id, pid, longitude, latitude, radius, addr_area, addr_detail, user_id
+        from weathersystem.user_hierarchy
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserHierarchyMap">
+        select
+          id, pid, longitude, latitude, radius, addr_area, addr_detail, user_id
+        from weathersystem.user_hierarchy
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserHierarchyMap">
+        select
+          id, pid, longitude, latitude, radius, addr_area, addr_detail, user_id
+        from weathersystem.user_hierarchy
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="longitude != null and longitude != ''">
+                and longitude = #{longitude}
+            </if>
+            <if test="latitude != null and latitude != ''">
+                and latitude = #{latitude}
+            </if>
+            <if test="radius != null">
+                and radius = #{radius}
+            </if>
+            <if test="addrArea != null and addrArea != ''">
+                and addr_area = #{addrArea}
+            </if>
+            <if test="addrDetail != null and addrDetail != ''">
+                and addr_detail = #{addrDetail}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.user_hierarchy
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="pid != null">
+                pid,
+            </if> 
+            <if test="longitude != null and longitude != ''">
+                longitude,
+            </if> 
+            <if test="latitude != null and latitude != ''">
+                latitude,
+            </if> 
+            <if test="radius != null">
+                radius,
+            </if> 
+            <if test="addrArea != null and addrArea != ''">
+                addr_area,
+            </if> 
+            <if test="addrDetail != null and addrDetail != ''">
+                addr_detail,
+            </if> 
+            <if test="userId != null">
+                user_id,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="pid != null">
+                #{pid},
+            </if>  
+            <if test="longitude != null and longitude != ''">
+                #{longitude},
+            </if>  
+            <if test="latitude != null and latitude != ''">
+                #{latitude},
+            </if>  
+            <if test="radius != null">
+                #{radius},
+            </if>  
+            <if test="addrArea != null and addrArea != ''">
+                #{addrArea},
+            </if>  
+            <if test="addrDetail != null and addrDetail != ''">
+                #{addrDetail},
+            </if>  
+            <if test="userId != null">
+                #{userId},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.user_hierarchy
+        <set>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="longitude != null and longitude != ''">
+                longitude = #{longitude},
+            </if>
+            <if test="latitude != null and latitude != ''">
+                latitude = #{latitude},
+            </if>
+            <if test="radius != null">
+                radius = #{radius},
+            </if>
+            <if test="addrArea != null and addrArea != ''">
+                addr_area = #{addrArea},
+            </if>
+            <if test="addrDetail != null and addrDetail != ''">
+                addr_detail = #{addrDetail},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.user_hierarchy where id = #{id}
+    </delete>
+
+</mapper>

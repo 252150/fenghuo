@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.VerifyCodeMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.VerifyCode" id="VerifyCodeMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="phoneNumber" column="phone_number" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="verifyCode" column="verify_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="VerifyCodeMap">
+        select
+          id, type, phone_number, create_time, verify_code
+        from weathersystem.verify_code
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="VerifyCodeMap">
+        select
+          id, type, phone_number, create_time, verify_code
+        from weathersystem.verify_code
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="VerifyCodeMap">
+        select
+          id, type, phone_number, create_time, verify_code
+        from weathersystem.verify_code
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="phoneNumber != null and phoneNumber != ''">
+                and phone_number = #{phoneNumber}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="verifyCode != null and verifyCode != ''">
+                and verify_code = #{verifyCode}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.verify_code
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="type != null">
+                type,
+            </if> 
+            <if test="phoneNumber != null and phoneNumber != ''">
+                phone_number,
+            </if> 
+            <if test="createTime != null">
+                create_time,
+            </if> 
+            <if test="verifyCode != null and verifyCode != ''">
+                verify_code,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="type != null">
+                #{type},
+            </if>  
+            <if test="phoneNumber != null and phoneNumber != ''">
+                #{phoneNumber},
+            </if>  
+            <if test="createTime != null">
+                #{createTime},
+            </if>  
+            <if test="verifyCode != null and verifyCode != ''">
+                #{verifyCode},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.verify_code
+        <set>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="phoneNumber != null and phoneNumber != ''">
+                phone_number = #{phoneNumber},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="verifyCode != null and verifyCode != ''">
+                verify_code = #{verifyCode},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.verify_code where id = #{id}
+    </delete>
+
+</mapper>

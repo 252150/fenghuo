@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.AdvertiseUserMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.AdvertiseUser" id="AdvertiseUserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="advertiseId" column="advertise_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AdvertiseUserMap">
+        select
+          id, advertise_id, user_id
+        from weathersystem.advertise_user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AdvertiseUserMap">
+        select
+          id, advertise_id, user_id
+        from weathersystem.advertise_user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AdvertiseUserMap">
+        select
+          id, advertise_id, user_id
+        from weathersystem.advertise_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="advertiseId != null">
+                and advertise_id = #{advertiseId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.advertise_user
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="advertiseId != null">
+                advertise_id,
+            </if> 
+            <if test="userId != null">
+                user_id,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="advertiseId != null">
+                #{advertiseId},
+            </if>  
+            <if test="userId != null">
+                #{userId},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.advertise_user
+        <set>
+            <if test="advertiseId != null">
+                advertise_id = #{advertiseId},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.advertise_user where advertise_id= #{id}
+    </delete>
+
+</mapper>

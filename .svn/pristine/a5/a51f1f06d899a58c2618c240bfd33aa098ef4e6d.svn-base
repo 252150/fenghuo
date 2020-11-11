@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.AddressContactMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.AddressContact" id="AddressContactMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="addressName" column="address_name" jdbcType="VARCHAR"/>
+        <result property="addressPhone" column="address_phone" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="isContact" column="is_contact" jdbcType="INTEGER"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AddressContactMap">
+        select
+          id, address_name, address_phone, user_id, is_contact
+        from weathersystem.address_contact
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AddressContactMap">
+        select
+          id, address_name, address_phone, user_id, is_contact
+        from weathersystem.address_contact
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="conditionQuery" resultMap="AddressContactMap">
+        select
+          ac.id, address_name, address_phone, user_id, is_contact,u.nickname
+        from weathersystem.address_contact ac,user u
+        where
+            ac.user_id=u.id
+            
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="addressName != null and addressName != ''">
+                and address_name like CONCAT(CONCAT('%',#{addressName}),'%')
+            </if>
+            <if test="addressPhone != null and addressPhone != ''">
+                and address_phone like CONCAT(CONCAT('%',#{addressPhone}),'%')
+            </if>
+              <if test="nickname != null and nickname != ''">
+                and nickname like CONCAT(CONCAT('%',#{nickname}),'%')
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="isContact != null">
+                and is_contact = #{isContact}
+            </if>
+       
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.address_contact
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="addressName != null and addressName != ''">
+                address_name,
+            </if> 
+            <if test="addressPhone != null and addressPhone != ''">
+                address_phone,
+            </if> 
+            <if test="userId != null">
+                user_id,
+            </if> 
+            <if test="isContact != null">
+                is_contact,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="addressName != null and addressName != ''">
+                #{addressName},
+            </if>  
+            <if test="addressPhone != null and addressPhone != ''">
+                #{addressPhone},
+            </if>  
+            <if test="userId != null">
+                #{userId},
+            </if>  
+            <if test="isContact != null">
+                #{isContact},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.address_contact
+        <set>
+            <if test="addressName != null and addressName != ''">
+                address_name = #{addressName},
+            </if>
+            <if test="addressPhone != null and addressPhone != ''">
+                address_phone = #{addressPhone},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="isContact != null">
+                is_contact = #{isContact},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.address_contact where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanjia.infoshopmallmanage.mapper.SeekHelpMapper">
+
+    <resultMap type="com.wanjia.infoshopmallmanage.entity.SeekHelp" id="SeekHelpMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="seekHelperId" column="seek_helper_id" jdbcType="INTEGER"/>
+        <result property="seekHelperPhone" column="seek_helper_phone" jdbcType="VARCHAR"/>
+        <result property="ranger" column="ranger" jdbcType="INTEGER"/>
+        <result property="seekHelpContent" column="seek_help_content" jdbcType="VARCHAR"/>
+        <result property="seekHelpType" column="seek_help_type" jdbcType="INTEGER"/>
+        <result property="seekHelpResult" column="seek_help_result" jdbcType="OTHER"/>
+        <result property="seekHelpTime" column="seek_help_time" jdbcType="TIMESTAMP"/>
+        <result property="seekHelpPrescription" column="seek_help_prescription" jdbcType="TIMESTAMP"/>
+        <result property="seekAddr" column="seek_addr" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SeekHelpMap">
+        select
+          id, seek_helper_id, seek_helper_phone, ranger, seek_help_content, seek_help_type, seek_help_result, seek_help_time, seek_help_prescription, seek_addr
+        from weathersystem.seek_help
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SeekHelpMap">
+        select
+          id, seek_helper_id, seek_helper_phone, ranger, seek_help_content, seek_help_type, seek_help_result, seek_help_time, seek_help_prescription, seek_addr
+        from weathersystem.seek_help
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SeekHelpMap">
+        select
+          id, seek_helper_id, seek_helper_phone, ranger, seek_help_content, seek_help_type, seek_help_result, seek_help_time, seek_help_prescription, seek_addr
+        from weathersystem.seek_help
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="seekHelperId != null">
+                and seek_helper_id = #{seekHelperId}
+            </if>
+            <if test="seekHelperPhone != null and seekHelperPhone != ''">
+                and seek_helper_phone = #{seekHelperPhone}
+            </if>
+            <if test="ranger != null">
+                and ranger = #{ranger}
+            </if>
+            <if test="seekHelpContent != null and seekHelpContent != ''">
+                and seek_help_content = #{seekHelpContent}
+            </if>
+            <if test="seekHelpType != null">
+                and seek_help_type = #{seekHelpType}
+            </if>
+            <if test="seekHelpResult != null">
+                and seek_help_result = #{seekHelpResult}
+            </if>
+            <if test="seekHelpTime != null">
+                and seek_help_time = #{seekHelpTime}
+            </if>
+            <if test="seekHelpPrescription != null">
+                and seek_help_prescription = #{seekHelpPrescription}
+            </if>
+            <if test="seekAddr != null and seekAddr != ''">
+                and seek_addr = #{seekAddr}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into weathersystem.seek_help
+        <trim prefix = "(" suffix = ")" suffixOverrides=",">
+            <if test="seekHelperId != null">
+                seek_helper_id,
+            </if> 
+            <if test="seekHelperPhone != null and seekHelperPhone != ''">
+                seek_helper_phone,
+            </if> 
+            <if test="ranger != null">
+                ranger,
+            </if> 
+            <if test="seekHelpContent != null and seekHelpContent != ''">
+                seek_help_content,
+            </if> 
+            <if test="seekHelpType != null">
+                seek_help_type,
+            </if> 
+            <if test="seekHelpResult != null">
+                seek_help_result,
+            </if> 
+            <if test="seekHelpTime != null">
+                seek_help_time,
+            </if> 
+            <if test="seekHelpPrescription != null">
+                seek_help_prescription,
+            </if> 
+            <if test="seekAddr != null and seekAddr != ''">
+                seek_addr,
+            </if> 
+        </trim>
+        <trim prefix = "values (" suffix = ")" suffixOverrides=",">
+            <if test="seekHelperId != null">
+                #{seekHelperId},
+            </if>  
+            <if test="seekHelperPhone != null and seekHelperPhone != ''">
+                #{seekHelperPhone},
+            </if>  
+            <if test="ranger != null">
+                #{ranger},
+            </if>  
+            <if test="seekHelpContent != null and seekHelpContent != ''">
+                #{seekHelpContent},
+            </if>  
+            <if test="seekHelpType != null">
+                #{seekHelpType},
+            </if>  
+            <if test="seekHelpResult != null">
+                #{seekHelpResult},
+            </if>  
+            <if test="seekHelpTime != null">
+                #{seekHelpTime},
+            </if>  
+            <if test="seekHelpPrescription != null">
+                #{seekHelpPrescription},
+            </if>  
+            <if test="seekAddr != null and seekAddr != ''">
+                #{seekAddr},
+            </if>  
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update weathersystem.seek_help
+        <set>
+            <if test="seekHelperId != null">
+                seek_helper_id = #{seekHelperId},
+            </if>
+            <if test="seekHelperPhone != null and seekHelperPhone != ''">
+                seek_helper_phone = #{seekHelperPhone},
+            </if>
+            <if test="ranger != null">
+                ranger = #{ranger},
+            </if>
+            <if test="seekHelpContent != null and seekHelpContent != ''">
+                seek_help_content = #{seekHelpContent},
+            </if>
+            <if test="seekHelpType != null">
+                seek_help_type = #{seekHelpType},
+            </if>
+            <if test="seekHelpResult != null">
+                seek_help_result = #{seekHelpResult},
+            </if>
+            <if test="seekHelpTime != null">
+                seek_help_time = #{seekHelpTime},
+            </if>
+            <if test="seekHelpPrescription != null">
+                seek_help_prescription = #{seekHelpPrescription},
+            </if>
+            <if test="seekAddr != null and seekAddr != ''">
+                seek_addr = #{seekAddr},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from weathersystem.seek_help where id = #{id}
+    </delete>
+
+</mapper>
